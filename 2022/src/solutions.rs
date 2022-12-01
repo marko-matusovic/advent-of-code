@@ -1,6 +1,7 @@
 mod day_00;
+mod day_01;
 
-use day_00 as today;
+use day_01 as today;
 
 use super::data_loader::data_for_day;
 
