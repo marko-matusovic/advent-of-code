@@ -12,13 +12,13 @@ pub fn parse_input(raw: String) -> Input {
 }
 
 pub fn part_1(input: &Input){
-    println!("Day {} part 1 with {:?}", day(), &input);
+    println!("Day {} part 1", day());
 
-    println!("Answer");
+    println!("Answer is {}");
 }
 
 pub fn part_2(input: &Input){
-    println!("Day {} part 2 with {:?}", day(), &input);
+    println!("Day {} part 2", day());
     
-    println!("Answer");
+    println!("Answer is {}");
 }

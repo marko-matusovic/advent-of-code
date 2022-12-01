@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 mod data_loader;
 mod solutions;
 
