@@ -3,6 +3,8 @@
 mod data_loader;
 mod solutions;
 
-fn main() {
-    solutions::run();
+#[tokio::main]
+async fn main() {
+    dotenv::dotenv().ok();
+    solutions::run().await;
 }
