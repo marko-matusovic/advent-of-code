@@ -5,7 +5,7 @@ pub struct Input {
     
 }
 
-pub fn parse_input(raw: String) -> Input {
+pub fn parse_input(raw: &str) -> Input {
     let lines:Vec<&str> = raw.split("\n").collect();
     println!("Day {} parsing {} lines", day(), lines.len());
     Input {  }
