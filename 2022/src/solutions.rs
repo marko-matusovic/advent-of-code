@@ -5,8 +5,9 @@ mod day_03;
 mod day_04;
 mod day_05;
 mod day_06;
+mod day_07;
 
-use day_06 as today;
+use day_07 as today;
 
 use super::data_loader::data_for_day;
 
