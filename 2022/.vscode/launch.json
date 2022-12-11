@@ -1,0 +1,30 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Run My Input",
+            "cargo": {
+                "args": [
+                    "build",
+                ]
+            },
+            "args": [
+                "-my",
+            ]
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Run Example",
+            "cargo": {
+                "args": [
+                    "build",
+                ]
+            },
+            "args": [
+                "-ex"
+            ]
+        },
+    ]
+}

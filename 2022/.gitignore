@@ -1,0 +1,6 @@
+#Avoid everything in .vscode
+.vscode/*
+
+#Except the directory and the launch file
+!.vscode
+!.vscode/launch.json
