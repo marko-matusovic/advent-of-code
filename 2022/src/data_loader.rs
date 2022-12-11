@@ -13,6 +13,7 @@ pub async fn data_for_day(day: u8) -> String {
 }
 
 fn read_day(day: u8) -> Result<String, std::io::Error> {
+    // let file_path = format!("./input/day_{:02}-ex.d", &day);
     let file_path = format!("./input/day_{:02}.d", &day);
     println!("filepath: {}", &file_path);
     fs::read_to_string(file_path)
