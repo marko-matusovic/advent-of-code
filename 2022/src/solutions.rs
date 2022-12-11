@@ -14,9 +14,16 @@ mod day_11;
 use day_11 as today;
 
 use super::data_loader::data_for_day;
+use crate::data_loader::InputType;
 
-pub async fn run(){
-    let raw = data_for_day(today::day()).await;
+pub async fn run(args: &Vec<String>){
+    let input_type: InputType = match args[1].as_str() {
+        "-ex" => InputType::EXAMPLE,
+        "-my" => InputType::MY,
+        _ => InputType::MY,
+    };
+    println!("Running Day {} for {} input.", today::day(), input_type.name().to_uppercase());
+    let raw = data_for_day(today::day(), &input_type).await;
     let input = today::parse_input(&raw);
     today::part_1(&input);
     today::part_2(&input);

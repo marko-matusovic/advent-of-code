@@ -2,24 +2,44 @@ use std::{env, fs, io::Write};
 
 const YEAR: &str = "2022";
 
-pub async fn data_for_day(day: u8) -> String {
-    match read_day(day) {
-        Ok(data) => {
-            println!("Read input from file.");
-            data
+pub enum InputType {
+    MY,
+    EXAMPLE,
+}
+
+impl InputType {
+    fn dir(&self) -> &str {
+        match self {
+            InputType::MY => "my",
+            InputType::EXAMPLE => "example",
         }
-        _ => fetch_day(day).await,
+    }
+    
+    pub fn name(&self) -> &str {
+        match self {
+            InputType::MY => "my",
+            InputType::EXAMPLE => "example",
+        }
     }
 }
 
-fn read_day(day: u8) -> Result<String, std::io::Error> {
-    // let file_path = format!("./input/day_{:02}-ex.d", &day);
-    let file_path = format!("./input/day_{:02}.d", &day);
-    println!("filepath: {}", &file_path);
+pub async fn data_for_day(day: u8, input_type: &InputType) -> String {
+    if let Ok(data) = read_day(day, input_type) {
+        println!("Read input from file.");
+        return data;
+    }
+    if let InputType::MY = input_type {
+        return fetch_personal_input_for_day(day).await;
+    }
+    panic!("Data cannot be loaded.");
+}
+
+fn read_day(day: u8, input_type: &InputType) -> Result<String, std::io::Error> {
+    let file_path = format!("./input/{}/day_{:02}.d", input_type.dir(), &day);
     fs::read_to_string(file_path)
 }
 
-async fn fetch_day(day: u8) -> String {
+async fn fetch_personal_input_for_day(day: u8) -> String {
     println!("Downloading input from AoC.");
     let url = format!("https://adventofcode.com/{}/day/{}/input", YEAR, day);
 
