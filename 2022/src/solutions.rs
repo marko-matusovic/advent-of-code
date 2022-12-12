@@ -10,8 +10,9 @@ mod day_08;
 mod day_09;
 mod day_10;
 mod day_11;
+mod day_12;
 
-use day_11 as today;
+use day_12 as today;
 
 use super::data_loader::data_for_day;
 use crate::data_loader::InputType;
