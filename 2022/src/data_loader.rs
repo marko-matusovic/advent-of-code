@@ -14,7 +14,7 @@ impl InputType {
             InputType::EXAMPLE => "example",
         }
     }
-    
+
     pub fn name(&self) -> &str {
         match self {
             InputType::MY => "my",
@@ -68,7 +68,7 @@ async fn fetch_personal_input_for_day(day: u8) -> String {
 }
 
 fn save_day(day: u8, body: &str) {
-    let file_path = format!("./input/day_{:02}.d", &day);
+    let file_path = format!("./input/my/day_{:02}.d", &day);
     if let Ok(mut file) = fs::File::create(file_path) {
         file.write(body.as_bytes()).unwrap_or_default();
         file.flush().unwrap_or_default();
