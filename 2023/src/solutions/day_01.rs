@@ -43,7 +43,7 @@ impl Day for Day01 {
 
     fn part_2(&self, raw: &str) {
         println!("Day {} part 2", self.day());
-        let input: Input = parse_input(raw);
+        let _input: Input = parse_input(raw);
 
         println!("Answer is {}", 0);
     }

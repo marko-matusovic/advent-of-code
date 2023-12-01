@@ -18,14 +18,14 @@ impl Day for Day08 {
 
     fn part_1(&self, raw: &str) {
         println!("Day {} part 1", self.day());
-        let input: Input = parse_input(raw);
+        let _input: Input = parse_input(raw);
 
         println!("Answer is {}", 0);
     }
 
     fn part_2(&self, raw: &str) {
         println!("Day {} part 2", self.day());
-        let input: Input = parse_input(raw);
+        let _input: Input = parse_input(raw);
 
         println!("Answer is {}", 0);
     }
