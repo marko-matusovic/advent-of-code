@@ -1,26 +1,32 @@
-pub fn day() -> u8 {
-    23
-}
+use super::day_trait::Day;
 
 #[derive(Debug)]
 pub struct Input {
     lines: Vec<String>,
 }
 
-pub fn parse_input(raw: &str) -> Input {
+fn parse_input(raw: &str) -> Input {
     let lines: Vec<String> = raw.split("\n").map(|s| s.to_owned()).collect();
-    println!("Day {} parsing {} lines", day(), lines.len());
     Input { lines: lines }
 }
 
-pub fn part_1(input: &Input) {
-    println!("Day {} part 1", day());
+pub struct Day23;
+impl Day for Day23 {
+    fn day(&self) -> u8 {
+        23
+    }
 
-    println!("Answer is {}", 0);
-}
+    fn part_1(&self, raw: &str) {
+        println!("Day {} part 1", self.day());
+        let input: Input = parse_input(raw);
 
-pub fn part_2(input: &Input) {
-    println!("Day {} part 2", day());
+        println!("Answer is {}", 0);
+    }
 
-    println!("Answer is {}", 0);
+    fn part_2(&self, raw: &str) {
+        println!("Day {} part 2", self.day());
+        let input: Input = parse_input(raw);
+
+        println!("Answer is {}", 0);
+    }
 }

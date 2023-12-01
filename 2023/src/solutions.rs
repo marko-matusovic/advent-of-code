@@ -1,4 +1,4 @@
-mod day_00;
+mod day_trait;
 mod day_01;
 mod day_02;
 mod day_03;
@@ -23,23 +23,50 @@ mod day_21;
 mod day_22;
 mod day_23;
 mod day_24;
-
-use day_01 as today;
+mod day_25;
 
 use super::data_loader::data_for_day;
-use crate::data_loader::InputType;
+use crate::{data_loader::InputType, solutions::day_trait::Day};
 
 pub async fn run(args: &Vec<String>){
+    let day: u32 = args[0].parse().expect("Not a valid number");
     let input_type: InputType = match args[1].as_str() {
-    }
-    let input_type: InputType = match args[2].as_str() {
         "--ex" => InputType::EXAMPLE,
         "--my" => InputType::MY,
         _ => InputType::MY,
     };
-    println!("Running Day {} for {} input.", today::day(), input_type.name().to_uppercase());
-    let raw = data_for_day(today::day(), &input_type).await;
-    let input = today::parse_input(&raw);
-    today::part_1(&input);
-    today::part_2(&input);
+
+    let today: Box<dyn Day> = match day {
+        01 => Box::new(day_01::Day01{}),
+        02 => Box::new(day_02::Day02{}),
+        03 => Box::new(day_03::Day03{}),
+        04 => Box::new(day_04::Day04{}),
+        05 => Box::new(day_05::Day05{}),
+        06 => Box::new(day_06::Day06{}),
+        07 => Box::new(day_07::Day07{}),
+        08 => Box::new(day_08::Day08{}),
+        09 => Box::new(day_09::Day09{}),
+        10 => Box::new(day_10::Day10{}),
+        11 => Box::new(day_11::Day11{}),
+        12 => Box::new(day_12::Day12{}),
+        13 => Box::new(day_13::Day13{}),
+        14 => Box::new(day_14::Day14{}),
+        15 => Box::new(day_15::Day15{}),
+        16 => Box::new(day_16::Day16{}),
+        17 => Box::new(day_17::Day17{}),
+        18 => Box::new(day_18::Day18{}),
+        19 => Box::new(day_19::Day19{}),
+        20 => Box::new(day_20::Day20{}),
+        21 => Box::new(day_21::Day21{}),
+        22 => Box::new(day_22::Day22{}),
+        23 => Box::new(day_23::Day23{}),
+        24 => Box::new(day_24::Day24{}),
+        25 => Box::new(day_25::Day25{}),
+        _ => panic!("Unexpected day!")
+    };
+    
+    println!("Running Day {} for {} input.", today.day(), input_type.name().to_uppercase());
+    let input = data_for_day(today.day(), &input_type).await;
+    today.part_1(&input);
+    today.part_2(&input);
 }

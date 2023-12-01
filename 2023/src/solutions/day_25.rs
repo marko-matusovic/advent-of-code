@@ -10,10 +10,10 @@ fn parse_input(raw: &str) -> Input {
     Input { lines: lines }
 }
 
-pub struct Day10;
-impl Day for Day10 {
+pub struct Day25;
+impl Day for Day25 {
     fn day(&self) -> u8 {
-        10
+        25
     }
 
     fn part_1(&self, raw: &str) {
