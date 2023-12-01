@@ -28,14 +28,23 @@ mod day_25;
 use super::data_loader::data_for_day;
 use crate::{data_loader::InputType, solutions::day_trait::Day};
 
-pub async fn run(args: &Vec<String>){
-    let day: u32 = args[0].parse().expect("Not a valid number");
-    let input_type: InputType = match args[1].as_str() {
-        "--ex" => InputType::EXAMPLE,
-        "--my" => InputType::MY,
-        _ => InputType::MY,
-    };
+#[derive(Eq, PartialEq)]
+pub enum Part {
+    ONE,
+    TWO,
+    ALL
+}
 
+impl Part {
+    fn is(&self, p: Part) -> bool {
+        match *self {
+            Part::ALL => true,
+            _ => p == *self,
+        }
+    }
+}
+
+pub async fn run(day: u32, input_type: InputType, part: Part) {
     let today: Box<dyn Day> = match day {
         01 => Box::new(day_01::Day01{}),
         02 => Box::new(day_02::Day02{}),
@@ -67,6 +76,10 @@ pub async fn run(args: &Vec<String>){
     
     println!("Running Day {} for {} input.", today.day(), input_type.name().to_uppercase());
     let input = data_for_day(today.day(), &input_type).await;
-    today.part_1(&input);
-    today.part_2(&input);
+    if part.is(Part::ONE) {
+        today.part_1(&input);
+    }
+    if part.is(Part::TWO) {
+        today.part_2(&input);
+    }
 }

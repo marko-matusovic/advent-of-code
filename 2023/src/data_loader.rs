@@ -1,6 +1,6 @@
 use std::{env, fs, io::Write};
 
-const YEAR: &str = "2022";
+const YEAR: &str = "2023";
 
 pub enum InputType {
     MY,
