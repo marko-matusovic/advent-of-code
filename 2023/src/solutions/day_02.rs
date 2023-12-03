@@ -1,4 +1,4 @@
-use std::{hint::black_box, cmp::max};
+use std::cmp::max;
 
 use super::day_trait::Day;
 
