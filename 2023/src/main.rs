@@ -13,7 +13,7 @@ async fn main() {
     dotenv::dotenv().ok();
     let args: Vec<String> = env::args().collect();
     
-    let day: u32 = args[2].parse().expect("Not a valid number");
+    let day: u32 = args[1].parse().expect("Not a valid number");
     
     let input_type: InputType = if args.contains(&String::from("--ex")) {
         InputType::EXAMPLE
