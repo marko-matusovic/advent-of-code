@@ -15,14 +15,15 @@ mod day_13;
 mod day_14;
 mod day_15;
 mod day_16;
+mod day_17;
 
-use day_16 as today;
+use day_17 as today;
 
 use super::data_loader::data_for_day;
 use crate::data_loader::InputType;
 
 pub async fn run(args: &Vec<String>){
-    let input_type: InputType = match args.get(2).map(|s| s.as_str()) {
+    let input_type: InputType = match args.get(2).or_else(|| args.get(1)).map(|s| s.as_str()) {
         Some("-ex") => InputType::EXAMPLE,
         Some("-my") => InputType::MY,
         _ => InputType::MY,
