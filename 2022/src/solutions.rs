@@ -17,8 +17,9 @@ mod day_15;
 mod day_16;
 mod day_17;
 mod day_18;
+mod day_19;
 
-use day_18 as today;
+use day_19 as today;
 
 use super::data_loader::data_for_day;
 use crate::data_loader::InputType;
