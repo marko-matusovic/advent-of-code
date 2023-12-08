@@ -7,7 +7,7 @@ pub struct Input {
 
 fn parse_input(raw: &str) -> Input {
     let lines: Vec<String> = raw.split("\n").map(|s| s.to_owned()).collect();
-    Input { lines: lines }
+    Input { lines }
 }
 
 pub struct Day17;
