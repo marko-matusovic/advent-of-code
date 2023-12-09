@@ -1,9 +1,5 @@
-use std::{
-    collections::{HashMap, HashSet},
-    iter::{self, once},
-};
+use std::collections::HashMap;
 
-use itertools::Itertools;
 use regex::Regex;
 
 use super::day_trait::Day;
