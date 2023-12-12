@@ -1,6 +1,9 @@
+use core::panic;
 use std::iter::repeat;
 
+use cached::proc_macro::cached;
 use itertools::Itertools;
+use regex::Regex;
 
 use super::day_trait::Day;
 
@@ -81,7 +84,7 @@ fn satisfy_pattern(counts: &Vec<usize>, filled_pattern: &str) -> bool {
             .collect::<Vec<usize>>()
 }
 
-fn count_possible(hs: &HotSpring) -> usize {
+fn count_possible_perm(hs: &HotSpring) -> usize {
     let broken: usize =
         hs.counts.iter().sum::<usize>() - hs.pattern.chars().filter(|&c| c == '#').count();
     let wild = hs.pattern.chars().filter(|&c| c == '?').count();
@@ -93,6 +96,55 @@ fn count_possible(hs: &HotSpring) -> usize {
         .count();
 
     count
+}
+
+#[cached]
+fn count_possible_rec(pattern: String, counts: Vec<usize>) -> usize {
+    if counts.len() == 0 && !pattern.contains('#') {
+        return 1;
+    }
+
+    let pattern: String = pattern.chars().skip_while(|&ch| ch == '.').collect();
+    if pattern.len() < counts.iter().sum() || (counts.is_empty() && pattern.contains('#')) {
+        return 0;
+    }
+
+    let first = counts[0].to_owned();
+
+    // starting with # ---> must follow (first) # or ?
+    // starting with ? ---> must follow (first) # or ?
+    //                  |-> is . and recurse
+
+    let mut sum = 0;
+    if pattern.chars().nth(0).unwrap() == '?' {
+        sum += count_possible_rec(pattern.chars().skip(1).collect(), counts.clone());
+    }
+
+    if pattern.chars().take(first).any(|c| c == '.')
+        || (first < pattern.len() && pattern.chars().nth(first).unwrap() == '#')
+    {
+        return sum;
+    }
+
+    sum += count_possible_rec(
+        pattern.chars().skip(first + 1).collect(),
+        counts.iter().skip(1).map(usize::to_owned).collect(),
+    );
+
+    return sum;
+}
+
+fn count_possible_regex(hs: &HotSpring) -> usize {
+    let mid_match = hs
+        .counts
+        .iter()
+        .map(|n| format!("[#?]{{{}}}", n))
+        .collect_vec()
+        .join(r"[\.?]+");
+    let full_match = format!(r"(^|\.){}($|\.)", mid_match);
+    let _re = Regex::new(&full_match).unwrap();
+
+    panic!("Doesn't work, regex returns the first match only.")
 }
 
 pub struct Day12;
@@ -108,7 +160,7 @@ impl Day for Day12 {
         let sum: usize = input
             .hot_springs
             .iter()
-            .map(count_possible)
+            .map(|hs| count_possible_rec(hs.pattern.to_owned(), hs.counts.to_owned()))
             .sum();
 
         println!("Answer is {}", sum);
@@ -123,9 +175,9 @@ impl Day for Day12 {
             .iter()
             .map(|hs| HotSpring {
                 pattern: repeat(hs.pattern.clone()).take(5).collect_vec().join("?"),
-                counts: repeat(hs.counts.clone()).flatten().collect_vec(),
+                counts: repeat(hs.counts.clone()).take(5).flatten().collect_vec(),
             })
-            .map(|hs| count_possible(&hs))
+            .map(|hs| count_possible_rec(hs.pattern.to_owned(), hs.counts.to_owned()))
             .sum();
 
         println!("Answer is {}", sum);
