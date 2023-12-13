@@ -37,22 +37,23 @@ impl CompMapList {
     }
 
     fn map_range(&self, (from, to): &(usize, usize)) -> Vec<(usize, usize)> {
-
         let mut res = Vec::new();
         let mut x = *from;
-        
-        // println!("map_range ({};{})", *from, *to);
 
         while x < *to {
-            // println!("x: {}", &x);
-            if let Some(mp) = self.maps.iter().filter(|mp| x < mp.from + mp.len ).min_by_key(|mp| mp.from + mp.len) {
+            if let Some(mp) = self
+                .maps
+                .iter()
+                .filter(|mp| x < mp.from + mp.len)
+                .min_by_key(|mp| mp.from + mp.len)
+            {
                 if x < mp.from {
                     let y = min(*to, mp.from);
                     res.push((x, y));
                     x = y;
                 }
                 let y = min(*to, mp.from + mp.len);
-                if x==y {
+                if x == y {
                     continue;
                 }
                 res.push((x - mp.from + mp.to, y - mp.from + mp.to));
@@ -62,7 +63,7 @@ impl CompMapList {
                 break;
             }
         }
-        
+
         res
     }
 }
@@ -145,19 +146,8 @@ impl Day for Day05 {
             })
             .collect();
 
-
-        let mut i = 0;
-        println!("Round {}", i);
-        seeds.iter().for_each(|s| print!("({}, {}), ", s.0, s.1));
-        println!("");
-
         for mps in input.maps {
             seeds = seeds.iter().flat_map(|s| mps.map_range(s)).collect();
-
-            i += 1;
-            println!("Round {}", i);
-            seeds.iter().for_each(|s| print!("({}, {}), ", s.0, s.1));
-            println!();
         }
 
         println!("Answer is {}", seeds.iter().map(|s| s.0).min().unwrap());
