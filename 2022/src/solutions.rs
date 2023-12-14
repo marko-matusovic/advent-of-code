@@ -31,6 +31,7 @@ use super::data_loader::data_for_day;
 use crate::data_loader::InputType;
 
 pub async fn run(args: &Vec<String>){
+    
     let input_type: InputType = match args.get(2).or_else(|| args.get(1)).map(|s| s.as_str()) {
         Some("-ex") => InputType::EXAMPLE,
         Some("-my") => InputType::MY,
@@ -39,6 +40,10 @@ pub async fn run(args: &Vec<String>){
     println!("Running Day {} for {} input.", today::day(), input_type.name().to_uppercase());
     let raw = data_for_day(today::day(), &input_type).await;
     let input = today::parse_input(&raw);
-    today::part_1(&input);
-    today::part_2(&input);
+    if !args.contains(&String::from("-p2")) {
+        today::part_1(&input);
+    }
+    if !args.contains(&String::from("-p1")) {
+        today::part_2(&input);
+    }
 }
