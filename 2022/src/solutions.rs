@@ -22,8 +22,9 @@ mod day_20;
 mod day_21;
 mod day_22;
 mod day_23;
+mod day_24;
 
-use day_23 as today;
+use day_24 as today;
 
 use super::data_loader::data_for_day;
 use crate::data_loader::InputType;
