@@ -7,6 +7,7 @@ use solutions::Part;
 
 mod data_loader;
 mod solutions;
+mod libs;
 
 #[tokio::main]
 async fn main() {

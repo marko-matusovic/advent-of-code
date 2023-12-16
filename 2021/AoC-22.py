@@ -1,7 +1,12 @@
 import numpy as np
 
-def parse():
-    raw = '''on x=-31..15,y=-40..12,z=-21..27
+TPos = tuple[int, int]
+TCube = tuple[TPos, TPos, TPos]
+TData = list[tuple[str, TCube]]
+
+
+def parse() -> TData:
+    raw = """on x=-31..15,y=-40..12,z=-21..27
 on x=-11..41,y=-15..37,z=-2..45
 on x=-9..43,y=-19..30,z=-23..27
 on x=-36..11,y=0..47,z=-38..16
@@ -420,56 +425,83 @@ off x=-81794..-62247,y=14498..29313,z=-30333..-3880
 off x=31528..49103,y=63600..77967,z=21699..42370
 on x=40818..63504,y=-43305..-29947,z=36934..49512
 off x=-20193..-11713,y=35933..52262,z=-67731..-45077
-on x=-674..27030,y=-78658..-58562,z=-33828..-15369'''
+on x=-674..27030,y=-78658..-58562,z=-33828..-15369"""
 
     data = []
 
-    min_x = 0
-    max_x = 0
-    min_y = 0
-    max_y = 0
-    min_z = 0
-    max_z = 0
-    for line in raw.split('\n'):
-        (instruction, coords) = line.split(' ')
-        (x, y, z) = coords.split(',')
-        xi = tuple(int(i) for i in x[2:].split('..'))
-        yi = tuple(int(i) for i in y[2:].split('..'))
-        zi = tuple(int(i) for i in z[2:].split('..'))
-        min_x = min(min_x, xi[0])
-        max_x = max(max_x, xi[1])
-        min_y = min(min_y, yi[0])
-        max_y = max(max_y, yi[1])
-        min_z = min(min_z, zi[0])
-        max_z = max(max_z, zi[1])
+    # min_x = 0
+    # max_x = 0
+    # min_y = 0
+    # max_y = 0
+    # min_z = 0
+    # max_z = 0
+    for line in raw.split("\n"):
+        (instruction, coords) = line.split(" ")
+        (x, y, z) = coords.split(",")
+        xi = tuple(int(i) for i in x[2:].split(".."))
+        yi = tuple(int(i) for i in y[2:].split(".."))
+        zi = tuple(int(i) for i in z[2:].split(".."))
+        # min_x = min(min_x, xi[0])
+        # max_x = max(max_x, xi[1])
+        # min_y = min(min_y, yi[0])
+        # max_y = max(max_y, yi[1])
+        # min_z = min(min_z, zi[0])
+        # max_z = max(max_z, zi[1])
         data.append((instruction, (xi, yi, zi)))
 
-    return (data, ((min_x, max_x), (min_y, max_y), (min_z, max_z)))
-
-def intersect_slice(s1, s2):
-    return s1[0] <= s2[0] <= s1[1] or s1[0] <= s2[1] <= s1[1] or s2[0] <= s1[0] <= s2[1] or s2[0] <= s1[1] <= s2[1]
-
-def intersect_cube(c1, c2):
-    return intersect_slice(c1[0], c2[0]) and intersect_slice(c1[1], c2[1]) and intersect_slice(c1[2], c2[2])
-
-def split_cube(c1, c2):
-    
-
-def part1(data):
-
-    (instructions, limits) = data
+    # return (data, ((min_x, max_x), (min_y, max_y), (min_z, max_z)))
+    return data
 
 
+def intersect_cube(c1: TCube, c2: TCube) -> TCube:
+    def intersect_dim(d1, d2):
+        return max(d1[0], d2[0]), min(d1[1], d2[1])
 
-    cubes = {}
+    x = intersect_dim(c1[0], c2[0])
+    y = intersect_dim(c1[1], c2[1])
+    z = intersect_dim(c1[2], c2[2])
+
+    if x[0] > x[1] or y[0] > y[1] or z[0] > z[1]:
+        return None  # No intersection
+
+    return (x, y, z)
 
 
+def total_volume(cubes):
+    total = 0
+    for cube in cubes:
+        x_len = cube[0][1] - cube[0][0]
+        y_len = cube[1][1] - cube[1][0]
+        z_len = cube[2][1] - cube[2][0]
+        total += x_len * y_len * z_len
+    return total
 
+
+def part1(data: TData):
     print("Part 1:")
+    # (instructions, limits) = data
 
-def part2(data):
+    queue = data
+    on_cubes: list[TCube] = []
+    while len(queue) > 0:
+        (ins, cube) = queue.pop(0)
+        if ins == "on":
+            if not True in [intersect_cube(cube, c) != None for c in on_cubes]:
+                # no intersection
+                on_cubes.append(cube)
+            pass
+        elif ins == "off":
+            pass
+        else:
+            exit(1)
+
+    print(f"Answer: {total_volume(on_cubes)}")
+
+
+def part2(data: TData):
     print("Part 2:")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     part1(parse())
     part2(parse())
