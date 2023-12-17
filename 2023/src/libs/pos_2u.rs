@@ -5,6 +5,12 @@ use super::pos_2i::Pos2I;
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos2U(pub usize, pub usize);
 
+impl Into<Pos2I> for Pos2U {
+    fn into(self) -> Pos2I {
+        Pos2I(self.0 as isize, self.1 as isize)
+    }
+}
+
 impl Add<Pos2U> for Pos2U {
     type Output = Pos2U;
 
