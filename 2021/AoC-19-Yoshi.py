@@ -1,4 +1,4 @@
-data = open('input/19', 'r').read()
+data = open('input/19.data', 'r').read()
 
 import itertools
 from functools import cache

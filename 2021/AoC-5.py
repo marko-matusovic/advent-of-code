@@ -1,7 +1,7 @@
 import numpy as np
 
 def parse():
-    data = open('input/5', 'r').read().split("\n")
+    data = open('input/5.data', 'r').read().split("\n")
 
     lines = []
 

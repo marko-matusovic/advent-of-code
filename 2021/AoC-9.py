@@ -1,5 +1,5 @@
 def parse():
-    data = open('input/9', 'r').read()
+    data = open('input/9.data', 'r').read()
 
     return ([[int(x) for x in row] for row in data.split('\n')], data.splitlines())
 

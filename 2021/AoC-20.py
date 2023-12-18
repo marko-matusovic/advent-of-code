@@ -1,5 +1,5 @@
 def parse():
-    raw = open('input/20', 'r').read()
+    raw = open('input/20.data', 'r').read()
 
     filter = raw.split('\n\n')[0]
     image = raw.split('\n\n')[1].split('\n')
