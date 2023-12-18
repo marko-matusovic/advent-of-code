@@ -1,7 +1,7 @@
 import numpy as np
 
 def parse():
-    data = open('input/6.d', 'r').read()
+    data = open('input/6', 'r').read()
 
     return [int(n) for n in data.split(",")]
 

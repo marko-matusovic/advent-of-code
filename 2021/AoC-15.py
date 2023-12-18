@@ -3,7 +3,7 @@ import heapq
 
 
 def parse():
-    raw = open('input/15.d', 'r').read()
+    raw = open('input/15', 'r').read()
 
     data = [[int(x) for x in row] for row in raw.split('\n')]
 

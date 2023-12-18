@@ -1,7 +1,7 @@
 import numpy as np
 
 def parse():
-    data = open('input/7.d', 'r').read()
+    data = open('input/7', 'r').read()
 
     return np.array([int(n) for n in data.split(',')], np.int32)
 

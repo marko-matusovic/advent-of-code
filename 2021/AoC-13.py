@@ -2,7 +2,7 @@ import numpy as np
 
 
 def parse():
-    raw = open('input/13.d', 'r').read()
+    raw = open('input/13', 'r').read()
 
     [a, b] = raw.split('\n\n')
 

@@ -1,5 +1,5 @@
 def parse():
-    data = open('input/3.d', 'r').read().split('\n')
+    data = open('input/3', 'r').read().split('\n')
 
     return data
 

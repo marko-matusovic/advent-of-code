@@ -1,5 +1,5 @@
 def parse():
-    raw = open('input/12.d', 'r').read()
+    raw = open('input/12', 'r').read()
 
 #     raw = '''fs-end
 # he-DX

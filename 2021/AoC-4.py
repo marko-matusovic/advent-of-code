@@ -1,7 +1,7 @@
 import numpy as np
 
 def parse():
-    data = open('input/4.d', 'r').read().split("\n\n")
+    data = open('input/4', 'r').read().split("\n\n")
 
     nums = [int(x) for x in data[0].split(",")]
 

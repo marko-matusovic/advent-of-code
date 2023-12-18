@@ -1,5 +1,5 @@
 def parse():
-    raw = open('input/16.d', 'r').read()
+    raw = open('input/16', 'r').read()
 
     bin = hex_2_bin(raw)
 
