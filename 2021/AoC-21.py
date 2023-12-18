@@ -3,8 +3,6 @@ def parse():
 Player 2 starting position: 6'''
 
     return (5, 6)
-    # return (4, 8)  # 1 -> 739785 # 2 -> 444356092776315
-
 
 def part1(data):
     (a, b) = data

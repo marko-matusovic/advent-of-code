@@ -1,5 +1,4 @@
-def parse():
-    raw = '''--- scanner 0 ---
+--- scanner 0 ---
 497,-409,-534
 -367,419,-378
 42,122,52
@@ -1003,51 +1002,4 @@ def parse():
 644,-385,-621
 -819,574,576
 -646,876,-578
-434,816,-253'''
-
-    scanners = {scanner.split('\n')[0].split(' ')[2] : [tuple([int(i) for i in point.split(',')]) for point in scanner.split('\n')[1:]] for scanner in raw.split('\n\n')}
-
-    return scanners
-
-def rotate_x(point):
-    (x, y, z) = point
-    return (x, z, -y)
-
-def rotate_y(point):
-    (x, y, z) = point
-    return (-z, y, x)
-
-def rotate_z(point):
-    (x, y, z) = point
-    return (y, -x, z)
-
-def dist(p1, p2):
-    assert len(p1) == len(p2)
-    return tuple([p1[i] - p2[i] for i in range(len(p1))])
-
-def part1(data):
-
-    print(data)
-
-    relative = {}
-
-
-
-    for scanner in data:
-        relative[scanner] = {}
-        for (i, p1) in data[scanner]:
-            relative[scanner][i] = {}
-            for (j, p2) in data[scanner]:
-                relative[scanner][i][j] = dist(p1, p2)
-
-
-
-    print("Part 1:")
-    return None
-
-def part2(data, carry):
-    print("Part 2:")
-
-if __name__ == '__main__':
-    carry = part1(parse())
-    part2(parse(), carry)
+434,816,-253
