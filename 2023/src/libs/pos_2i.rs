@@ -33,21 +33,21 @@ impl Sub for Pos2I {
     }
 }
 impl Pos2I {
-    fn scale(self, sc: isize) -> Self {
+    pub fn scale(self, sc: isize) -> Self {
         Pos2I(self.0 * sc, self.1 * sc)
     }
-    fn dominates(&self, other: Self) -> bool {
+    pub fn dominates(&self, other: Self) -> bool {
         return other.0 <= self.0 && other.1 <= self.1;
     }
-    fn dist_n1(&self, other: Self) -> isize {
+    pub fn dist_n1(&self, other: Self) -> isize {
         (self.0 - other.0).abs() + (self.1 - other.1).abs()
     }
-    fn dist_n2_sq(&self, other: Self) -> isize {
+    pub fn dist_n2_sq(&self, other: Self) -> isize {
         let a = self.0 - other.0;
         let b = self.0 - other.0;
         a * a + b * b
     }
-    fn dist_n2(&self, other: Self) -> f64 {
+    pub fn dist_n2(&self, other: Self) -> f64 {
         (self.dist_n2_sq(other) as f64).sqrt()
     }
 }

@@ -33,22 +33,22 @@ impl Sub for Pos2U {
     }
 }
 impl Pos2U {
-    fn scale(self, sc: usize) -> Self {
+    pub fn scale(self, sc: usize) -> Self {
         Pos2U(self.0 * sc, self.1 * sc)
     }
-    fn dominates(&self, other: Self) -> bool {
+    pub fn dominates(&self, other: Self) -> bool {
         return other.0 <= self.0 && other.1 <= self.1;
     }
-    fn dist_n1(&self, other: Self) -> usize {
+    pub fn dist_n1(&self, other: Self) -> usize {
         ((self.0 as isize - other.0 as isize).abs() + (self.1 as isize - other.1 as isize).abs())
             as usize
     }
-    fn dist_n2_sq(&self, other: Self) -> usize {
+    pub fn dist_n2_sq(&self, other: Self) -> usize {
         let a = self.0 as isize - other.0 as isize;
         let b = self.0 as isize - other.0 as isize;
         (a * a + b * b) as usize
     }
-    fn dist_n2(&self, other: Self) -> f64 {
+    pub fn dist_n2(&self, other: Self) -> f64 {
         (self.dist_n2_sq(other) as f64).sqrt()
     }
 }
