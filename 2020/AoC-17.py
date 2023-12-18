@@ -1,16 +1,5 @@
 def part1(arr):
-    # arr = [[[True]]]
     for iteration in range(6):
-        # print('='*50)
-        # print('i =',iteration)
-        #
-        # for k,z in enumerate(arr):
-        #     print('z =',k)
-        #     for y in z:
-        #         for x in y:
-        #             print('#' if x else '.', end='')
-        #             # print(x,end=' ')
-        #         print()
 
         brr = []
         brr.append([[False] * (2 + len(arr[0][0]))] * (2 + len(arr[0])))

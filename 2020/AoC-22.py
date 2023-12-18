@@ -1,6 +1,4 @@
 arr = '''Player 1:\n17\n19\n30\n45\n25\n48\n8\n6\n39\n36\n28\n5\n47\n26\n46\n20\n18\n13\n7\n49\n34\n23\n43\n22\n4\n\nPlayer 2:\n44\n10\n27\n9\n14\n15\n24\n16\n3\n33\n21\n29\n11\n38\n1\n31\n50\n41\n40\n32\n42\n35\n37\n2\n12'''
-# arr = '''Player 1:\n9\n2\n6\n3\n1\n\nPlayer 2:\n5\n8\n4\n7\n10'''
-
 
 def part1(p1, p2):
     while len(p1) != 0 and len(p2) != 0:
