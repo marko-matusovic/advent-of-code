@@ -45,7 +45,7 @@ impl Debug for SignalTransmission {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 enum ModuleType {
     Broadcast,
     FlipFlop(bool),
@@ -132,6 +132,7 @@ impl Module {
 pub struct Input {
     lines: Vec<String>,
     modules: HashMap<String, Module>,
+    back_links: HashMap<String, Vec<String>>,
 }
 
 fn parse_input(raw: &str) -> Input {
@@ -194,7 +195,11 @@ fn parse_input(raw: &str) -> Input {
         }
     }
 
-    Input { lines, modules }
+    Input {
+        lines,
+        modules,
+        back_links,
+    }
 }
 
 pub struct Day20;
@@ -222,14 +227,41 @@ impl Day for Day20 {
     fn part_2(&self, raw: &str) {
         println!("Day {} part 2", self.day());
         let input: Input = parse_input(raw);
-        let mut modules = input.modules.clone();
 
-        let mut i = 1;
-        while !press_button_n_finds_rx(&mut modules) {
-            i += 1;
+        let prev1 = &input.back_links.get("rx").unwrap()[0];
+        assert!(matches!(
+            input.modules.get(prev1).unwrap().typ,
+            ModuleType::Conjunction(_)
+        ));
+        let prev2 = input.back_links.get(prev1).unwrap().to_owned();
+        for hm in prev2.iter() {
+            assert!(matches!(
+                input.modules.get(hm).unwrap().typ,
+                ModuleType::Conjunction(_)
+            ))
+        }
+        let prev3: Vec<String> = prev2
+            .iter()
+            .map(|m| {
+                let bm = input.back_links.get(m).unwrap();
+                assert!(bm.len() == 1);
+                return bm[0].to_owned();
+            })
+            .collect();
+        for hm in prev3.iter() {
+            assert!(matches!(
+                input.modules.get(hm).unwrap().typ,
+                ModuleType::Conjunction(_)
+            ))
         }
 
-        println!("Answer is {}", i);
+        todo!()
+        // let cycles: Vec<usize> = prev3.iter().map(|hm| {
+        //     let mut modules = input.modules.clone();
+        //     // calculate the cycle
+        // }).collect();
+
+        // println!("Answer is {}", 0);
     }
 }
 
@@ -247,9 +279,9 @@ fn press_button_n_count_signals(modules: &mut HashMap<String, Module>) -> (usize
         signals = signals
             .iter()
             .flat_map(|st| {
-                modules.get_mut(&st.to.to_owned()).map(|module| {
-                    module.process_signal(&st.from, &st.signal)
-                })
+                modules
+                    .get_mut(&st.to.to_owned())
+                    .map(|module| module.process_signal(&st.from, &st.signal))
             })
             .flatten()
             .collect_vec();
@@ -258,29 +290,4 @@ fn press_button_n_count_signals(modules: &mut HashMap<String, Module>) -> (usize
     }
 
     return (count_low, count_high);
-}
-
-fn press_button_n_finds_rx(modules: &mut HashMap<String, Module>) -> bool {
-    let mut signals: Vec<SignalTransmission> = vec![SignalTransmission {
-        from: String::from("button"),
-        to: String::from("broadcaster"),
-        signal: Signal::Low,
-    }];
-
-    while !signals.is_empty() {
-        signals = signals
-            .iter()
-            .flat_map(|st| {
-                modules.get_mut(&st.to.to_owned()).map(|module| {
-                    module.process_signal(&st.from, &st.signal)
-                })
-            })
-            .flatten()
-            .collect_vec();
-        if signals.iter().find(|st| st.to == "rx" && st.signal.is_low()).is_some() {
-            return true;
-        }
-    }
-
-    return false;
 }
