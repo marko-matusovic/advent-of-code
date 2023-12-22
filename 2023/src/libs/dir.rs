@@ -49,6 +49,9 @@ impl Dir4 {
     pub fn is_vertical(&self) -> bool {
         *self == Dir4::N || *self == Dir4::S
     }
+    pub fn all() -> Vec<Self> {
+        vec![Dir4::E, Dir4::S, Dir4::W, Dir4::N]
+    }
 }
 
 impl Rotate for Dir4 {
@@ -117,6 +120,18 @@ impl Dir8 {
     }
     pub fn is_vertical(&self) -> bool {
         *self == Dir8::N || *self == Dir8::S
+    }
+    pub fn all() -> Vec<Self> {
+        vec![
+            Dir8::E,
+            Dir8::SE,
+            Dir8::S,
+            Dir8::SW,
+            Dir8::W,
+            Dir8::NW,
+            Dir8::N,
+            Dir8::NE,
+        ]
     }
 }
 
