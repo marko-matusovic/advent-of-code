@@ -1,9 +1,26 @@
-use std::ops::{Add, Sub};
+use std::{
+    iter::repeat,
+    ops::{Add, Sub},
+};
+
+use itertools::Itertools;
 
 use super::pos_3i::Pos3I;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos3U(pub usize, pub usize, pub usize);
+
+impl FromIterator<usize> for Pos3U {
+    fn from_iter<T: IntoIterator<Item = usize>>(iter: T) -> Self {
+        let (a, b, c) = iter
+            .into_iter()
+            .chain(repeat(0))
+            .take(3)
+            .collect_tuple()
+            .unwrap();
+        Self(a, b, c)
+    }
+}
 
 impl Into<Pos3I> for Pos3U {
     fn into(self) -> Pos3I {

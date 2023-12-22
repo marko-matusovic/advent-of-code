@@ -1,10 +1,27 @@
-use std::ops::{Add, Sub};
+use std::{
+    iter::repeat,
+    ops::{Add, Sub},
+};
+
+use itertools::Itertools;
 
 use super::pos_3u::Pos3U;
 use std::convert::TryInto;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos3I(pub isize, pub isize, pub isize);
+
+impl FromIterator<isize> for Pos3I {
+    fn from_iter<T: IntoIterator<Item = isize>>(iter: T) -> Self {
+        let (a, b, c) = iter
+            .into_iter()
+            .chain(repeat(0))
+            .take(3)
+            .collect_tuple()
+            .unwrap();
+        Self(a, b, c)
+    }
+}
 
 impl TryInto<Pos3U> for Pos3I {
     type Error = String;

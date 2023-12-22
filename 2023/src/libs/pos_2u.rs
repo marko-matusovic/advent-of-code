@@ -1,9 +1,23 @@
-use std::ops::{Add, Sub};
+use std::{ops::{Add, Sub}, iter::repeat};
+
+use itertools::Itertools;
 
 use super::pos_2i::Pos2I;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos2U(pub usize, pub usize);
+
+impl FromIterator<usize> for Pos2U {
+    fn from_iter<T: IntoIterator<Item = usize>>(iter: T) -> Self {
+        let (a, b) = iter
+            .into_iter()
+            .chain(repeat(0))
+            .take(2)
+            .collect_tuple()
+            .unwrap();
+        Self(a, b)
+    }
+}
 
 impl Into<Pos2I> for Pos2U {
     fn into(self) -> Pos2I {

@@ -1,10 +1,24 @@
-use std::ops::{Add, Sub};
+use std::{ops::{Add, Sub}, iter::repeat};
+
+use itertools::Itertools;
 
 use super::pos_2u::Pos2U;
 use std::convert::TryInto;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos2I(pub isize, pub isize);
+
+impl FromIterator<isize> for Pos2I {
+    fn from_iter<T: IntoIterator<Item = isize>>(iter: T) -> Self {
+        let (a, b) = iter
+            .into_iter()
+            .chain(repeat(0))
+            .take(2)
+            .collect_tuple()
+            .unwrap();
+        Self(a, b)
+    }
+}
 
 impl TryInto<Pos2U> for Pos2I {
     type Error = String;
