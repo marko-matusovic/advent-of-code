@@ -44,7 +44,7 @@ impl Pos2I {
     }
     pub fn dist_n2_sq(&self, other: Self) -> isize {
         let a = self.0 - other.0;
-        let b = self.0 - other.0;
+        let b = self.1 - other.1;
         a * a + b * b
     }
     pub fn dist_n2(&self, other: Self) -> f64 {

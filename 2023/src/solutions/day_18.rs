@@ -1,4 +1,4 @@
-use crate::libs::{dir::Dir4, pos_2i::Pos2I};
+use crate::libs::{Dir4, Pos2I};
 
 use super::day_trait::Day;
 

@@ -26,10 +26,10 @@ impl Add<Pos2I> for Pos2U {
     }
 }
 impl Sub for Pos2U {
-    type Output = Pos2U;
+    type Output = Pos2I;
 
     fn sub(self, other: Self) -> Self::Output {
-        Pos2U(self.0 - other.0, self.1 - other.1)
+        Pos2I(self.0 as isize - other.0 as isize, self.1 as isize - other.1 as isize)
     }
 }
 impl Pos2U {
@@ -45,7 +45,7 @@ impl Pos2U {
     }
     pub fn dist_n2_sq(&self, other: Self) -> usize {
         let a = self.0 as isize - other.0 as isize;
-        let b = self.0 as isize - other.0 as isize;
+        let b = self.1 as isize - other.1 as isize;
         (a * a + b * b) as usize
     }
     pub fn dist_n2(&self, other: Self) -> f64 {

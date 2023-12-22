@@ -1,9 +1,5 @@
 use super::pos_2i::Pos2I;
 
-pub trait Rotate {
-    fn rotate(&self, deg: isize) -> Self;
-}
-
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Clone, Copy)]
 pub enum Dir4 {
     E,
@@ -52,10 +48,7 @@ impl Dir4 {
     pub fn all() -> Vec<Self> {
         vec![Dir4::E, Dir4::S, Dir4::W, Dir4::N]
     }
-}
-
-impl Rotate for Dir4 {
-    fn rotate(&self, deg: isize) -> Self {
+    pub fn rotate(&self, deg: isize) -> Self {
         Self::from(self.deg() + (360 + deg % 360) as usize)
     }
 }
@@ -133,10 +126,7 @@ impl Dir8 {
             Dir8::NE,
         ]
     }
-}
-
-impl Rotate for Dir8 {
-    fn rotate(&self, deg: isize) -> Self {
+    pub fn rotate(&self, deg: isize) -> Self {
         Self::from(self.deg() + (360 + deg % 360) as usize)
     }
 }

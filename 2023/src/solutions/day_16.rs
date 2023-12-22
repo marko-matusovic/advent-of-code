@@ -2,7 +2,7 @@ use std::collections::{HashSet, VecDeque};
 
 use itertools::Itertools;
 
-use crate::libs::{dir::{Dir4, Rotate}, pos_2i::Pos2I, pos_2u::Pos2U};
+use crate::libs::{Dir4, Pos2I, Pos2U};
 
 use super::day_trait::Day;
 
