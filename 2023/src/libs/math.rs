@@ -5,7 +5,7 @@ pub fn gcd(a: usize, b: usize) -> usize {
     }
 }
 
-pub fn gcd_vec(numbers: &[usize]) -> usize {
+pub fn gcd_vec(numbers: &Vec<usize>) -> usize {
     numbers.iter().fold(numbers[0], |a, &b| gcd(a, b))
 }
 
@@ -13,6 +13,6 @@ pub fn lcm(a: usize, b: usize) -> usize {
     a * b / gcd(a, b)
 }
 
-pub fn lcm_vec(numbers: &[usize]) -> usize {
+pub fn lcm_vec(numbers: &Vec<usize>) -> usize {
     numbers.iter().fold(1, |a, &b| lcm(a, b))
 }
