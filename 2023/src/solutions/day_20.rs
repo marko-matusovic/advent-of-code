@@ -6,6 +6,8 @@ use std::{
 
 use itertools::Itertools;
 
+use crate::libs::math::lcm_vec;
+
 use super::day_trait::Day;
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
@@ -255,13 +257,29 @@ impl Day for Day20 {
             ))
         }
 
-        todo!()
-        // let cycles: Vec<usize> = prev3.iter().map(|hm| {
-        //     let mut modules = input.modules.clone();
-        //     // calculate the cycle
-        // }).collect();
+        dbg!(&prev3);
 
-        // println!("Answer is {}", 0);
+        let mut modules = input.modules.clone();
+        let mut cycles: HashMap<String, usize> = prev2.iter().map(|p| (p.to_owned(), 0)).collect();
+        let mut i = 0;
+        while cycles.iter().any(|(_, c)| *c == 0) {
+            let transmissions = press_button_n_record_transmissions(&mut modules);
+            i += 1;
+            print!("{}\r", &i);
+            for (md, c) in cycles.iter_mut() {
+                if *c != 0 {
+                    continue;
+                }
+                if transmissions.iter().any(|st| st.from == *md && st.signal.is_high()) {
+                    *c = i;
+                    println!("{}: {}", &md, &c);
+                }
+            }
+        }
+
+        let first = lcm_vec(&cycles.values().cloned().collect_vec());
+
+        println!("Answer is {}", first);
     }
 }
 
@@ -290,4 +308,30 @@ fn press_button_n_count_signals(modules: &mut HashMap<String, Module>) -> (usize
     }
 
     return (count_low, count_high);
+}
+
+fn press_button_n_record_transmissions(modules: &mut HashMap<String, Module>) -> Vec<SignalTransmission> {
+    let mut signals: Vec<SignalTransmission> = vec![SignalTransmission {
+        from: String::from("button"),
+        to: String::from("broadcaster"),
+        signal: Signal::Low,
+    }];
+
+    let mut transmissions: Vec<SignalTransmission> = Vec::new();
+    transmissions.extend(signals.clone());
+
+    while !signals.is_empty() {
+        signals = signals
+            .iter()
+            .flat_map(|st| {
+                modules
+                    .get_mut(&st.to.to_owned())
+                    .map(|module| module.process_signal(&st.from, &st.signal))
+            })
+            .flatten()
+            .collect_vec();
+        transmissions.extend(signals.clone());
+    }
+
+    return transmissions;
 }
