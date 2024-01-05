@@ -1,4 +1,4 @@
-[rules,myticket,alltickets] = open('input/16.data', 'r').read().split('\n\n')
+[rules,myticket,alltickets] = open('input/16.d', 'r').read().split('\n\n')
 
 rules = rules.split('\n')
 myticket = myticket.split('\n')[1].split(',')

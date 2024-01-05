@@ -1,4 +1,4 @@
-arr = open('input/5.data', 'r').read().split()
+arr = open('input/5.d', 'r').read().split()
 
 maxId = 0
 

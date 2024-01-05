@@ -1,4 +1,4 @@
-arr = open('input/6.data', 'r').read().split('\n\n')
+arr = open('input/6.d', 'r').read().split('\n\n')
 
 totCount = 0
 for g in arr:

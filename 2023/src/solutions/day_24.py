@@ -2,7 +2,7 @@ import re, z3
 
 print("Day 24 Part 2 (in python)")
 
-lines = open("input/my/day_24.data", "r").readlines()
+lines = open("input/my/day_24.d", "r").readlines()
 
 stones = [list([int(n) for n in re.findall("-?\d+", l)]) for l in lines]
 

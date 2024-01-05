@@ -1,4 +1,4 @@
-arr = open('input/12.data', 'r').read().split('\n')
+arr = open('input/12.d', 'r').read().split('\n')
 
 import numpy as np
 

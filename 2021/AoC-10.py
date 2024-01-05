@@ -2,7 +2,7 @@ import math
 
 
 def parse():
-    data = open('input/10.data', 'r').read().split('\n')
+    data = open('input/10.d', 'r').read().split('\n')
 
     return data
 

@@ -1,4 +1,4 @@
-arr = open('input/8.data', 'r').read().split('\n')
+arr = open('input/8.d', 'r').read().split('\n')
 
 def run1():
     i = 0

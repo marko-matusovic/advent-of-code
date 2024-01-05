@@ -1,4 +1,4 @@
-arr = open('input/10.data', 'r').read().split('\n')
+arr = open('input/10.d', 'r').read().split('\n')
 
 arr = [int(x) for x in arr]
 arr.append(0)

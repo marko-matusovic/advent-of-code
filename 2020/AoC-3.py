@@ -1,4 +1,4 @@
-arr = open('input/3.data', 'r').read().split('\n')
+arr = open('input/3.d', 'r').read().split('\n')
 
 dxy = [(1,1),(3,1),(5,1),(7,1),(1,2)]
 

@@ -1,4 +1,4 @@
-arr = open('input/9.data', 'r').read().split('\n')
+arr = open('input/9.d', 'r').read().split('\n')
 
 def canSum(nums, n):
     for i, a in enumerate(nums):

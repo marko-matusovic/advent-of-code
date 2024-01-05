@@ -1,4 +1,4 @@
-arr = open('input/21.data', 'r').read()
+arr = open('input/21.d', 'r').read()
 
 def part1(cookbook):
     ati = {}

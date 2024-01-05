@@ -1,5 +1,5 @@
 if __name__=='__main__':
-    a = open('input/1.data', 'r').read().split()
+    a = open('input/1.d', 'r').read().split()
 
     arr = [int(x) for x in a]
 

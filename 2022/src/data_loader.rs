@@ -35,7 +35,7 @@ pub async fn data_for_day(day: u8, input_type: &InputType) -> String {
 }
 
 fn read_day(day: u8, input_type: &InputType) -> Result<String, std::io::Error> {
-    let file_path = format!("./input/{}/day_{:02}.data", input_type.dir(), &day);
+    let file_path = format!("./input/{}/day_{:02}.d", input_type.dir(), &day);
     fs::read_to_string(file_path)
 }
 
@@ -68,7 +68,7 @@ async fn fetch_personal_input_for_day(day: u8) -> String {
 }
 
 fn save_day(day: u8, body: &str) {
-    let file_path = format!("./input/my/day_{:02}.data", &day);
+    let file_path = format!("./input/my/day_{:02}.d", &day);
     if let Ok(mut file) = fs::File::create(file_path) {
         file.write(body.as_bytes()).unwrap_or_default();
         file.flush().unwrap_or_default();

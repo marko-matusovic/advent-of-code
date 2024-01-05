@@ -1,4 +1,4 @@
-arr = open('input/4.data', 'r').read().split('\n\n')
+arr = open('input/4.d', 'r').read().split('\n\n')
 
 allow = ['byr','iyr','eyr','hgt','hcl','ecl','pid']
 corr = 0

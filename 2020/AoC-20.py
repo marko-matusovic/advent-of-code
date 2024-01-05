@@ -222,7 +222,7 @@ def part2(puzzles, pieces):
     print('Part 2:', count1)
 
 if __name__ == '__main__':
-    arr = open('input/20.data', 'r').read().split('\n\n')
+    arr = open('input/20.d', 'r').read().split('\n\n')
 
     puzzles = {}
     pieces = {}

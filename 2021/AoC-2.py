@@ -1,5 +1,5 @@
 def parse():
-    inp = open('input/2.data', 'r').read()
+    inp = open('input/2.d', 'r').read()
 
     data = []
     for x in inp.split('\n'):

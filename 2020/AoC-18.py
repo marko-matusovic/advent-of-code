@@ -85,7 +85,7 @@ def part2(arr):
     return part1(arr)
 
 if __name__ == '__main__':
-    arr = open('input/18.data', 'r').read()
+    arr = open('input/18.d', 'r').read()
     arr = arr.split('\n')
     brr = []
     for a in arr:

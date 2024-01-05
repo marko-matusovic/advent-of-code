@@ -1,4 +1,4 @@
-arr = open('input/2.data', 'r').read().split('\n')
+arr = open('input/2.d', 'r').read().split('\n')
 
 arr = [a.split() for a in arr]
 c = 0

@@ -1,4 +1,4 @@
-arr = open('input/24.data', 'r').read()
+arr = open('input/24.d', 'r').read()
 
 def hash(x,y,z):
     return '{}:{}:{}'.format(x, y, z)

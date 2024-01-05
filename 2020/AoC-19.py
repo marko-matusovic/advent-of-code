@@ -1,7 +1,7 @@
 import time
 
 def part1():
-    (rules,input) = open('input/19.data', 'r').read().split('\n\n')
+    (rules,input) = open('input/19.d', 'r').read().split('\n\n')
     
     rules = rules.split('\n')
     input = input.split('\n')
@@ -80,7 +80,7 @@ def part1():
 
 
 def part2b():
-    (rules,input) = open('input/19.data', 'r').read().split('\n\n')
+    (rules,input) = open('input/19.d', 'r').read().split('\n\n')
     # (rules, input) = '0: 4 1 5\n1: 2 3 | 3 2\n2: 4 4 | 5 5\n3: 4 5 | 5 4\n4: "a"\n5: "b"\n\nababbb\nbababa\nabbbab\naaabbb\naaaabbb'.split('\n\n')
     # (rules, input) = '0: 1 2\n1: "a"\n2: 1 3 | 3 1\n3: "b"\n\naab\naba\nbab\nbba'.split('\n\n')
 
@@ -195,7 +195,7 @@ def part2b():
 
 def part2():
 
-    (rules,input) = open('input/19.data', 'r').read().split('\n\n')
+    (rules,input) = open('input/19.d', 'r').read().split('\n\n')
     
     rules = rules.split('\n')
     input = input.split('\n')

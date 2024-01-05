@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 def parse():
-    raw = open('input/14.data', 'r').read()
+    raw = open('input/14.d', 'r').read()
 
     (start, rules_raw) = raw.split('\n\n')
 

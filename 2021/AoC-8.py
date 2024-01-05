@@ -1,7 +1,7 @@
 import numpy as np
 
 def parse():
-    data = open('input/8.data', 'r').read()
+    data = open('input/8.d', 'r').read()
 
     return [([[s for s in d] for d in row.split(" | ")[0].split(" ")], [[s for s in d] for d in row.split(" | ")[1].split(" ")]) for row in data.split("\n")]
 

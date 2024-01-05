@@ -6,7 +6,7 @@ TData = list[tuple[str, TCube]]
 
 
 def parse() -> TData:
-    raw = open('input/22.data', 'r').read()
+    raw = open('input/22.d', 'r').read()
 
     data = []
 
