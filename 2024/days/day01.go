@@ -9,12 +9,12 @@ import (
 	"strings"
 )
 
-type Input struct {
+type input01 struct {
 	Left  []int
 	Right []int
 }
 
-func loadInput() Input {
+func loadInput01() input01 {
 
 	data, err := os.ReadFile("input/my/day_01.d")
 
@@ -35,12 +35,12 @@ func loadInput() Input {
 		r, _ := strconv.Atoi(nums[len(nums)-1])
 		right = append(right, r)
 	}
-	return Input{left, right}
+	return input01{left, right}
 }
 
 func Day01Part1() {
 	fmt.Println("Day 1 Part 1")
-	input := loadInput()
+	input := loadInput01()
 	slices.Sort(input.Left)
 	slices.Sort(input.Right)
 
@@ -53,7 +53,7 @@ func Day01Part1() {
 
 func Day01Part2() {
 	fmt.Println("Day 1 Part 2")
-	input := loadInput()
+	input := loadInput01()
 	total := 0
 	for _, valL := range input.Left {
 		count := 0
