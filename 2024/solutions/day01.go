@@ -1,7 +1,6 @@
-package days
+package solutions
 
 import (
-	"aoc_2024/loader"
 	"fmt"
 	"math"
 	"slices"
@@ -9,13 +8,14 @@ import (
 	"strings"
 )
 
+type Day01 struct{}
 type input01 struct {
 	Left  []int
 	Right []int
 }
 
-func loadInput01() input01 {
-	lines := strings.Split(loader.ReadDay(1), "\n")
+func (d Day01) Parse(raw string) input01 {
+	lines := strings.Split(raw, "\n")
 	left := make([]int, len(lines))
 	right := make([]int, len(lines))
 	for _, line := range lines {
@@ -30,9 +30,9 @@ func loadInput01() input01 {
 	return input01{left, right}
 }
 
-func Day01Part1() {
+func (d Day01) Part1(raw string) {
 	fmt.Println("Day 1 Part 1")
-	input := loadInput01()
+	input := d.Parse(raw)
 	slices.Sort(input.Left)
 	slices.Sort(input.Right)
 
@@ -43,9 +43,9 @@ func Day01Part1() {
 	fmt.Printf("Solution: %d\n", dist)
 }
 
-func Day01Part2() {
+func (d Day01) Part2(raw string) {
 	fmt.Println("Day 1 Part 2")
-	input := loadInput01()
+	input := d.Parse(raw)
 	total := 0
 	for _, valL := range input.Left {
 		count := 0

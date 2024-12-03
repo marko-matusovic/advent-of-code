@@ -1,0 +1,10 @@
+package solutions
+
+type DayXXX struct{}
+type inputXXX struct {
+	raw string
+}
+
+func (d DayXXX) Parse(raw string) inputXXX { return inputXXX{raw} }
+func (d DayXXX) Part1(raw string)          {}
+func (d DayXXX) Part2(raw string)          {}

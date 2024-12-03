@@ -1,19 +1,19 @@
-package days
+package solutions
 
 import (
-	"aoc_2024/loader"
 	"fmt"
 	"math"
 	"strconv"
 	"strings"
 )
 
+type Day02 struct{}
 type input02 struct {
 	Reports [][]int
 }
 
-func loadInput02() input02 {
-	lines := strings.Split(loader.ReadDay(2), "\n")
+func (d Day02) Parse(raw string) input02 {
+	lines := strings.Split(raw, "\n")
 	reports := make([][]int, len(lines))
 	for i, line := range lines {
 		nums := make([]int, 0)
@@ -26,9 +26,9 @@ func loadInput02() input02 {
 	return input02{reports}
 }
 
-func Day02Part1() {
+func (d Day02) Part1(raw string) {
 	fmt.Println("Day 2 Part 1")
-	input := loadInput02()
+	input := d.Parse(raw)
 
 	count := 0
 	for _, report := range input.Reports {
@@ -40,9 +40,9 @@ func Day02Part1() {
 	fmt.Printf("Solution: %d\n", count)
 }
 
-func Day02Part2() {
+func (d Day02) Part2(raw string) {
 	fmt.Println("Day 2 Part 2")
-	input := loadInput02()
+	input := d.Parse(raw)
 
 	count := 0
 	for _, report := range input.Reports {
