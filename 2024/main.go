@@ -10,4 +10,7 @@ func main() {
 
 	days.Day02Part1()
 	days.Day02Part2()
+
+	days.Day03Part1()
+	days.Day03Part2()
 }
