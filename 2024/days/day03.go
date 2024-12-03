@@ -1,8 +1,8 @@
 package days
 
 import (
+	"aoc_2024/loader"
 	"fmt"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -13,12 +13,7 @@ type input03 struct {
 }
 
 func loadInput03() input03 {
-	data, err := os.ReadFile("input/my/day_03.d")
-	if err != nil {
-		fmt.Printf("Error reading file: %v\n", err)
-		os.Exit(1)
-	}
-	return input03{data}
+	return input03{[]byte(loader.ReadDay(3))}
 }
 
 func Day03Part1() {

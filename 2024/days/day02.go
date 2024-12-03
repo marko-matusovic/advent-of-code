@@ -1,9 +1,9 @@
 package days
 
 import (
+	"aoc_2024/loader"
 	"fmt"
 	"math"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -13,17 +13,8 @@ type input02 struct {
 }
 
 func loadInput02() input02 {
-
-	data, err := os.ReadFile("input/my/day_02.d")
-
-	if err != nil {
-		fmt.Printf("Error reading file: %v\n", err)
-		os.Exit(1)
-	}
-	lines := strings.Split(string(data), "\n")
-
+	lines := strings.Split(loader.ReadDay(2), "\n")
 	reports := make([][]int, len(lines))
-
 	for i, line := range lines {
 		nums := make([]int, 0)
 		for _, num := range strings.Split(line, " ") {
