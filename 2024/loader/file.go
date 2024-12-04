@@ -5,8 +5,8 @@ import (
 	"os"
 )
 
-func ReadDay(day int) string {
-	data, err := os.ReadFile(fmt.Sprintf("input/my/day_%02d.d", day))
+func ReadDay(day int, source string) string {
+	data, err := os.ReadFile(fmt.Sprintf("input/%s/day_%02d.d", source, day))
 	if err != nil {
 		fmt.Printf("Error reading file: %v\n", err)
 		os.Exit(1)

@@ -9,6 +9,8 @@ import (
 
 func main() {
 	dayN, _ := strconv.Atoi(os.Args[1])
+	inputSource := "ex"
+	inputSource = "my"
 	solution := map[int]solutions.Day{
 		1:  solutions.Day01{},
 		2:  solutions.Day02{},
@@ -37,6 +39,6 @@ func main() {
 		25: solutions.Day25{},
 	}[dayN]
 
-	solution.Part1(loader.ReadDay(dayN))
-	solution.Part2(loader.ReadDay(dayN))
+	solution.Part1(loader.ReadDay(dayN, inputSource))
+	solution.Part2(loader.ReadDay(dayN, inputSource))
 }
