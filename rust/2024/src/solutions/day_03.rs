@@ -1,14 +1,7 @@
+use itertools::Itertools;
+use regex::Regex;
+
 use super::day_trait::Day;
-
-#[derive(Debug)]
-pub struct Input {
-    lines: Vec<String>,
-}
-
-fn parse_input(raw: &str) -> Input {
-    let lines: Vec<String> = raw.split("\n").map(|s| s.to_owned()).collect();
-    Input { lines }
-}
 
 pub struct Day03;
 impl Day for Day03 {
@@ -18,15 +11,36 @@ impl Day for Day03 {
 
     fn part_1(&self, raw: &str) {
         println!("Day {} part 1", self.day());
-        let _input: Input = parse_input(raw);
 
-        println!("Answer is {}", 0);
+        let re = Regex::new("mul\\((\\d+),(\\d+)\\)").unwrap();
+        let sum: usize = re
+            .captures_iter(raw)
+            .map(|c| {
+                let (_, [a, b]) = c.extract();
+                a.parse::<usize>().unwrap() * b.parse::<usize>().unwrap()
+            })
+            .sum();
+
+        println!("Answer is {}", sum);
     }
 
     fn part_2(&self, raw: &str) {
         println!("Day {} part 2", self.day());
-        let _input: Input = parse_input(raw);
 
-        println!("Answer is {}", 0);
+        let re = Regex::new("mul\\((\\d+),(\\d+)\\)").unwrap();
+        let sum: usize = re
+            .captures_iter(
+                &raw.split("do()")
+                    .map(|part| part.split("don't()").collect_vec()[0])
+                    .collect_vec()
+                    .join(" "),
+            )
+            .map(|c| {
+                let (_, [a, b]) = c.extract();
+                a.parse::<usize>().unwrap() * b.parse::<usize>().unwrap()
+            })
+            .sum();
+
+        println!("Answer is {}", sum);
     }
 }
