@@ -11,3 +11,5 @@ replace aoc_2024/loader => ./loader
 require aoc_2024/solutions v0.0.0-00010101000000-000000000000
 
 require aoc_2024/loader v0.0.0-00010101000000-000000000000
+
+require aoc_2024/libs v0.0.0-00010101000000-000000000000 // indirect
