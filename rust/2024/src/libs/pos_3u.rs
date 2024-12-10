@@ -10,6 +10,12 @@ use super::pos_3i::Pos3I;
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos3U(pub usize, pub usize, pub usize);
 
+impl ToString for Pos3U {
+    fn to_string(&self) -> String {
+        format!("Pos3U({},{},{})", self.0, self.1, self.2)
+    }
+}
+
 impl FromIterator<usize> for Pos3U {
     fn from_iter<T: IntoIterator<Item = usize>>(iter: T) -> Self {
         let (a, b, c) = iter

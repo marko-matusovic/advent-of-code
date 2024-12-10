@@ -8,6 +8,17 @@ pub enum Dir4 {
     N,
 }
 
+impl ToString for Dir4 {
+    fn to_string(&self) -> String {
+        format!("Dir4::{}", match self {
+            Dir4::E => "E",
+            Dir4::S => "S",
+            Dir4::W => "W",
+            Dir4::N => "N",
+        })
+    }
+}
+
 impl From<usize> for Dir4 {
     fn from(value: usize) -> Self {
         match value % 360 {
@@ -63,6 +74,21 @@ pub enum Dir8 {
     NW,
     N,
     NE,
+}
+
+impl ToString for Dir8 {
+    fn to_string(&self) -> String {
+        format!("Dir8::{}", match self {
+            Dir8::E => "E",
+            Dir8::SE => "SE",
+            Dir8::S => "S",
+            Dir8::SW => "SW",
+            Dir8::W => "W",
+            Dir8::NW => "NW",
+            Dir8::N => "N",
+            Dir8::NE => "NE",
+        })
+    }
 }
 
 impl From<usize> for Dir8 {

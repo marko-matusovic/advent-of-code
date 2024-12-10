@@ -1,13 +1,13 @@
 use itertools::Itertools;
 
-use crate::libs::grid_2d::rotate_cw;
+use crate::libs::Grid2;
 
 use super::day_trait::Day;
 
 #[derive(Debug)]
 pub struct Input {
     lines: Vec<String>,
-    grid: Vec<Vec<char>>,
+    grid: Grid2<char>,
 }
 
 fn parse_input(raw: &str) -> Input {
@@ -15,7 +15,7 @@ fn parse_input(raw: &str) -> Input {
     let grid = lines.iter().map(|l| l.chars().collect_vec()).collect_vec();
     Input {
         lines,
-        grid,
+        grid: Grid2(grid)
     }
 }
 
@@ -34,10 +34,10 @@ impl Day for Day04 {
 
         let mut count = 0;
         for _ in 0..4 {
-            for y in 0..grid.len() {
-                for x in 0..grid[y].len() {
+            for y in 0..grid.0.len() {
+                for x in 0..grid.0[y].len() {
                     if pattern.chars().into_iter().enumerate().all(|(i, ch)| {
-                        if let Some(Some(&ch2)) = grid.get(y).map(|yr| yr.get(x + i)) {
+                        if let Some(Some(&ch2)) = grid.0.get(y).map(|yr| yr.get(x + i)) {
                             ch == ch2
                         } else {
                             false
@@ -46,7 +46,7 @@ impl Day for Day04 {
                         count += 1;
                     }
                     if pattern.chars().into_iter().enumerate().all(|(i, ch)| {
-                        if let Some(Some(&ch2)) = grid.get(y + i).map(|yr| yr.get(x + i)) {
+                        if let Some(Some(&ch2)) = grid.0.get(y + i).map(|yr| yr.get(x + i)) {
                             ch == ch2
                         } else {
                             false
@@ -56,7 +56,7 @@ impl Day for Day04 {
                     }
                 }
             }
-            grid = rotate_cw(grid);
+            grid = grid.rotate_cw();
         }
 
         println!("Answer is {}", count);
@@ -71,14 +71,14 @@ impl Day for Day04 {
 
         let mut count = 0;
         for _ in 0..4 {
-            for y in 0..grid.len() {
-                for x in 0..grid[y].len() {
+            for y in 0..grid.0.len() {
+                for x in 0..grid.0[y].len() {
                     if pattern.chars().into_iter().enumerate().all(|(i, ch)| {
-                        (if let Some(Some(&ch2)) = grid.get(y + i).map(|yr| yr.get(x + i)) {
+                        (if let Some(Some(&ch2)) = grid.0.get(y + i).map(|yr| yr.get(x + i)) {
                             ch == ch2
                         } else {
                             false
-                        }) && (if let Some(Some(&ch2)) = grid
+                        }) && (if let Some(Some(&ch2)) = grid.0
                             .get(y + i)
                             .map(|yr| yr.get(x + pattern.len() - i - 1))
                         {
@@ -91,7 +91,7 @@ impl Day for Day04 {
                     }
                 }
             }
-            grid = rotate_cw(grid);
+            grid = grid.rotate_cw();
         }
 
         println!("Answer is {}", count);

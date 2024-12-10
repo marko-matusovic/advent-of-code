@@ -1,4 +1,7 @@
-use std::{ops::{Add, Sub}, iter::repeat};
+use std::{
+    iter::repeat,
+    ops::{Add, Sub},
+};
 
 use itertools::Itertools;
 
@@ -7,6 +10,12 @@ use std::convert::TryInto;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos2I(pub isize, pub isize);
+
+impl ToString for Pos2I {
+    fn to_string(&self) -> String {
+        format!("Pos2I({},{})", self.0, self.1)
+    }
+}
 
 impl FromIterator<isize> for Pos2I {
     fn from_iter<T: IntoIterator<Item = isize>>(iter: T) -> Self {

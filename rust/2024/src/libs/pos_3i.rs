@@ -11,6 +11,12 @@ use std::convert::TryInto;
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos3I(pub isize, pub isize, pub isize);
 
+impl ToString for Pos3I {
+    fn to_string(&self) -> String {
+        format!("Pos3I({},{},{})", self.0, self.1, self.2)
+    }
+}
+
 impl FromIterator<isize> for Pos3I {
     fn from_iter<T: IntoIterator<Item = isize>>(iter: T) -> Self {
         let (a, b, c) = iter

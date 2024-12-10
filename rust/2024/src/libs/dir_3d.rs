@@ -12,6 +12,19 @@ pub enum Dir6 {
     D,
 }
 
+impl ToString for Dir6 {
+    fn to_string(&self) -> String {
+        format!("Dir6::{}", match self {
+            Dir6::F => "F",
+            Dir6::B => "B",
+            Dir6::R => "R",
+            Dir6::L => "L",
+            Dir6::U => "U",
+            Dir6::D => "D",
+        })
+    }
+}
+
 impl Dir6 {
     pub fn dir(&self) -> Pos3I {
         match self {

@@ -1,4 +1,7 @@
-use std::{ops::{Add, Sub}, iter::repeat};
+use std::{
+    iter::repeat,
+    ops::{Add, Sub},
+};
 
 use itertools::Itertools;
 
@@ -6,6 +9,12 @@ use super::pos_2i::Pos2I;
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
 pub struct Pos2U(pub usize, pub usize);
+
+impl ToString for Pos2U {
+    fn to_string(&self) -> String {
+        format!("Pos2U({},{})", self.0, self.1)
+    }
+}
 
 impl FromIterator<usize> for Pos2U {
     fn from_iter<T: IntoIterator<Item = usize>>(iter: T) -> Self {
@@ -43,7 +52,10 @@ impl Sub for Pos2U {
     type Output = Pos2I;
 
     fn sub(self, other: Self) -> Self::Output {
-        Pos2I(self.0 as isize - other.0 as isize, self.1 as isize - other.1 as isize)
+        Pos2I(
+            self.0 as isize - other.0 as isize,
+            self.1 as isize - other.1 as isize,
+        )
     }
 }
 impl Pos2U {

@@ -17,4 +17,6 @@ pub use pos_3i::Pos3I;
 #[allow(unused_imports)]
 pub use pos_3u::Pos3U;
 #[allow(unused_imports)]
+pub use grid_2d::Grid2;
+#[allow(unused_imports)]
 pub use union_find::UnionFind;
