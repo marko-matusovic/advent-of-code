@@ -1,4 +1,8 @@
-use std::{collections::HashMap, hash::Hash, iter::repeat};
+use std::{
+    collections::{HashMap, HashSet},
+    hash::Hash,
+    iter::repeat,
+};
 
 use itertools::Itertools;
 
@@ -7,6 +11,12 @@ pub struct UnionFind<T> {
     index: HashMap<T, usize>,
     parent: Vec<usize>,
     rank: Vec<usize>,
+}
+
+impl<T: Clone + Eq + Hash> From<HashSet<T>> for UnionFind<T> {
+    fn from(value: HashSet<T>) -> Self {
+        UnionFind::from(value.iter().map(|ch| ch.to_owned()).collect_vec())
+    }
 }
 
 impl<T: Clone + Eq + Hash> From<Vec<T>> for UnionFind<T> {

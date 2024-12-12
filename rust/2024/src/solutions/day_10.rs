@@ -79,7 +79,7 @@ impl Day for Day10 {
         for y in 0..input.grid.0.len() {
             for x in 0..input.grid.0[y].len() {
                 let pos = Pos2U(x, y);
-                if let Some(&height) = input.grid.get(&pos) {
+                if let Some(&height) = input.grid.get_at(&pos) {
                     if height == 0 {
                         score += count_paths(&input.grid, 0, &pos)
                     }
@@ -99,7 +99,7 @@ fn count_paths(grid: &Grid2<u8>, step: u8, pos: &Pos2U) -> usize {
     let mut combinations = 0;
     for dir in Dir4::all() {
         if let Ok(next) = pos.add(dir.dir()).try_into() {
-            if let Some(&height) = grid.get(&next) {
+            if let Some(&height) = grid.get_at(&next) {
                 if height == step + 1 {
                     combinations += count_paths(grid, step + 1, &next)
                 }

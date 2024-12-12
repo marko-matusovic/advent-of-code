@@ -1,3 +1,5 @@
+use itertools::Itertools;
+
 use super::Pos2U;
 
 #[derive(Debug)]
@@ -9,10 +11,20 @@ impl<I: Copy> From<Vec<Vec<I>>> for Grid2<I> {
     }
 }
 
+impl From<&Vec<String>> for Grid2<char> {
+    fn from(lines: &Vec<String>) -> Self {
+        Grid2(lines.iter().map(|l| l.chars().collect_vec()).collect_vec())
+    }
+}
+
 impl<I> Grid2<I> {
-    pub fn get(&self, at: &Pos2U) -> Option<&I> {
-        if let Some(row) = self.0.get(at.1) {
-            return row.get(at.0);
+    pub fn get_at(&self, at: &Pos2U) -> Option<&I> {
+        self.get(at.0, at.1)
+    }
+
+    pub fn get(&self, x: usize, y: usize) -> Option<&I> {
+        if let Some(row) = self.0.get(y) {
+            return row.get(x);
         }
         None
     }
@@ -25,6 +37,14 @@ impl<I: Clone> Clone for Grid2<I> {
 }
 
 impl<I: Clone> Grid2<I> {
+    pub fn x(&self) -> usize {
+        self.0[0].len()
+    }
+
+    pub fn y(&self) -> usize {
+        self.0.len()
+    }
+
     pub fn rotate_cw(&self) -> Grid2<I> {
         let mut new_grid: Vec<Vec<I>> = Vec::new();
 
