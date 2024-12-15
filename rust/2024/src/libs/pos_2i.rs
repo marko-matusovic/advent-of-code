@@ -73,4 +73,10 @@ impl Pos2I {
     pub fn dist_n2(&self, other: Self) -> f64 {
         (self.dist_n2_sq(other) as f64).sqrt()
     }
+    pub fn wrap(&self, other: Self) -> Self {
+        Pos2I(
+            ((self.0 % other.0) + other.0) % other.0,
+            ((self.1 % other.1) + other.1) % other.1,
+        )
+    }
 }
