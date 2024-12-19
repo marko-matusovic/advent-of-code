@@ -1,8 +1,8 @@
 use std::{collections::HashSet, ops::Add};
 
-use itertools::{concat, Itertools};
+use itertools::Itertools;
 
-use crate::libs::{Pos2I, Pos2U};
+use crate::libs::Pos2I;
 
 use super::day_trait::Day;
 
@@ -85,7 +85,7 @@ impl Day for Day14 {
             for x in 0..101 {
                 'coord: for y in 0..103 {
                     for i in 0..20 {
-                        if !positions.contains(&Pos2I(x+i, y)) {
+                        if !positions.contains(&Pos2I(x + i, y)) {
                             continue 'coord;
                         }
                     }

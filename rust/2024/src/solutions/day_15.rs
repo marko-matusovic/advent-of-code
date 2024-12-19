@@ -93,60 +93,61 @@ impl Day for Day15 {
         println!("Answer is {}", score);
     }
 
-    fn part_2(&self, raw: &str) {
+    fn part_2(&self, _raw: &str) {
         println!("Day {} part 2", self.day());
-        let input: Input = parse_input(raw);
+        panic!("WIP");
+        // let input: Input = parse_input(raw);
 
-        let walls = input
-            .walls
-            .iter()
-            .flat_map(|&Pos2U(x, y)| [Pos2U(x * 2, y), Pos2U(x * 2 + 1, y)])
-            .collect();
+        // let walls = input
+        //     .walls
+        //     .iter()
+        //     .flat_map(|&Pos2U(x, y)| [Pos2U(x * 2, y), Pos2U(x * 2 + 1, y)])
+        //     .collect();
 
-        let mut boxes = input
-            .boxes
-            .iter()
-            .map(|&Pos2U(x, y)| Pos2U(x * 2, y))
-            .collect();
+        // let mut boxes = input
+        //     .boxes
+        //     .iter()
+        //     .map(|&Pos2U(x, y)| Pos2U(x * 2, y))
+        //     .collect();
 
-        let mut robot = input.robot.clone();
+        // let mut robot = input.robot.clone();
 
-        // move the boxes around
-        for step in input.steps {
-            let bx = Pos2U(0, 0);
-            if let Some(boxes_to_move) = can_and_will_move(&walls, &boxes, &bx, &step) {}
-        }
+        // // move the boxes around
+        // for step in input.steps {
+        //     let bx = Pos2U(0, 0);
+        //     if let Some(boxes_to_move) = can_and_will_move(&walls, &boxes, &bx, &step) {}
+        // }
 
-        let score: usize = boxes.iter().map(|b| b.0 + b.1 * 100).sum();
+        // let score: usize = boxes.iter().map(|b| b.0 + b.1 * 100).sum();
 
-        println!("Answer is {}", score);
+        // println!("Answer is {}", score);
     }
 }
 
-fn can_and_will_move(
-    walls: &HashSet<Pos2U>,
-    boxes: &HashSet<Pos2U>,
-    bx: &Pos2U,
-    step: &Dir4,
-) -> Option<Vec<Pos2U>> {
-    match step {
-        Dir4::E => {
-            let next = &Pos2U(bx.0 + 1, bx.1);
-            if walls.contains(next) {
-                return can_and_will_move(walls, boxes, next, step)
-                    .map(|wm| vec![vec![next], wm].concat());
-            }
-            return Some(vec![bx.clone()]);
-        }
-        Dir4::W => {
-            let next = &Pos2U(bx.0 - 1, bx.1);
-            if walls.contains(next) {
-                return can_and_will_move(walls, boxes, next, step)
-                    .map(|wm| vec![vec![next], wm].concat());
-            }
-            return Some(vec![bx.clone()]);
-        }
-        Dir4::S => todo!(),
-        Dir4::N => todo!(),
-    }
-}
+// fn can_and_will_move(
+//     walls: &HashSet<Pos2U>,
+//     boxes: &HashSet<Pos2U>,
+//     bx: &Pos2U,
+//     step: &Dir4,
+// ) -> Option<Vec<Pos2U>> {
+//     match step {
+//         Dir4::E => {
+//             let next = &Pos2U(bx.0 + 1, bx.1);
+//             if walls.contains(next) {
+//                 return can_and_will_move(walls, boxes, next, step)
+//                     .map(|wm| vec![vec![next], wm].concat());
+//             }
+//             return Some(vec![bx.clone()]);
+//         }
+//         Dir4::W => {
+//             let next = &Pos2U(bx.0 - 1, bx.1);
+//             if walls.contains(next) {
+//                 return can_and_will_move(walls, boxes, next, step)
+//                     .map(|wm| vec![vec![next], wm].concat());
+//             }
+//             return Some(vec![bx.clone()]);
+//         }
+//         Dir4::S => todo!(),
+//         Dir4::N => todo!(),
+//     }
+// }
