@@ -1,13 +1,12 @@
 use std::{
     collections::{BinaryHeap, HashMap, HashSet},
-    f32::consts::E,
     ops::Add,
     usize,
 };
 
 use itertools::Itertools;
 
-use crate::libs::{dir_2d::Dir4, Pos2I, Pos2U};
+use crate::libs::{dir_2d::Dir4, Pos2U};
 
 use super::day_trait::Day;
 
