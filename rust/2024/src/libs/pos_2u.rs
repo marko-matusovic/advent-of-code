@@ -59,6 +59,9 @@ impl Sub for Pos2U {
     }
 }
 impl Pos2U {
+    pub fn add_unwrap(self, other: Pos2I) -> Pos2U {
+        self.add(other).try_into().unwrap()
+    }
     pub fn scale(self, sc: usize) -> Self {
         Pos2U(self.0 * sc, self.1 * sc)
     }

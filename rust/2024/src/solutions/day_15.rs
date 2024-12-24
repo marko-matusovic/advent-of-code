@@ -1,4 +1,4 @@
-use std::{collections::HashSet, ops::Add};
+use std::collections::HashSet;
 
 use itertools::Itertools;
 
@@ -74,7 +74,7 @@ impl Day for Day15 {
         'steps: for step in input.steps {
             let mut cur = robot.clone();
             loop {
-                cur = cur.add(step.dir()).try_into().unwrap();
+                cur = cur.add_unwrap(step.dir());
                 if boxes.contains(&cur) {
                     continue;
                 }
@@ -83,7 +83,7 @@ impl Day for Day15 {
                 }
                 break;
             }
-            robot = robot.add(step.dir()).try_into().unwrap();
+            robot = robot.add_unwrap(step.dir());
             boxes.insert(cur);
             boxes.remove(&robot);
         }
@@ -93,61 +93,109 @@ impl Day for Day15 {
         println!("Answer is {}", score);
     }
 
-    fn part_2(&self, _raw: &str) {
+    fn part_2(&self, raw: &str) {
         println!("Day {} part 2", self.day());
-        panic!("WIP");
-        // let input: Input = parse_input(raw);
+        let input: Input = parse_input(raw);
 
-        // let walls = input
-        //     .walls
-        //     .iter()
-        //     .flat_map(|&Pos2U(x, y)| [Pos2U(x * 2, y), Pos2U(x * 2 + 1, y)])
-        //     .collect();
+        let walls = input
+            .walls
+            .iter()
+            .flat_map(|&Pos2U(x, y)| [Pos2U(x * 2, y), Pos2U(x * 2 + 1, y)])
+            .collect();
 
-        // let mut boxes = input
-        //     .boxes
-        //     .iter()
-        //     .map(|&Pos2U(x, y)| Pos2U(x * 2, y))
-        //     .collect();
+        let mut boxes = input
+            .boxes
+            .iter()
+            .map(|&Pos2U(x, y)| Pos2U(x * 2, y))
+            .collect();
 
-        // let mut robot = input.robot.clone();
+        let mut robot = input.robot.clone();
 
-        // // move the boxes around
-        // for step in input.steps {
-        //     let bx = Pos2U(0, 0);
-        //     if let Some(boxes_to_move) = can_and_will_move(&walls, &boxes, &bx, &step) {}
-        // }
+        for step in input.steps {
+            robot_can_and_will_move(&walls, &mut boxes, &mut robot, &step);
+        }
 
-        // let score: usize = boxes.iter().map(|b| b.0 + b.1 * 100).sum();
+        let score: usize = boxes.iter().map(|b| b.0 + b.1 * 100).sum();
 
-        // println!("Answer is {}", score);
+        println!("Answer is {}", score);
     }
 }
 
-// fn can_and_will_move(
-//     walls: &HashSet<Pos2U>,
-//     boxes: &HashSet<Pos2U>,
-//     bx: &Pos2U,
-//     step: &Dir4,
-// ) -> Option<Vec<Pos2U>> {
-//     match step {
-//         Dir4::E => {
-//             let next = &Pos2U(bx.0 + 1, bx.1);
-//             if walls.contains(next) {
-//                 return can_and_will_move(walls, boxes, next, step)
-//                     .map(|wm| vec![vec![next], wm].concat());
-//             }
-//             return Some(vec![bx.clone()]);
-//         }
-//         Dir4::W => {
-//             let next = &Pos2U(bx.0 - 1, bx.1);
-//             if walls.contains(next) {
-//                 return can_and_will_move(walls, boxes, next, step)
-//                     .map(|wm| vec![vec![next], wm].concat());
-//             }
-//             return Some(vec![bx.clone()]);
-//         }
-//         Dir4::S => todo!(),
-//         Dir4::N => todo!(),
-//     }
-// }
+fn robot_can_and_will_move(
+    walls: &HashSet<Pos2U>,
+    boxes: &mut HashSet<Pos2U>,
+    robot: &mut Pos2U,
+    step: &Dir4,
+) -> Option<Vec<Pos2U>> {
+    let next = robot.add_unwrap(step.dir());
+    if walls.contains(&next) {
+        return None;
+    }
+    match step {
+        Dir4::E => {
+            if boxes.contains(&next) {
+                box_can_and_will_move(walls, boxes, &next, step)
+            } else {
+                Some(Vec::new())
+            }
+        }
+        Dir4::W => {
+            let next = next.add_unwrap(Dir4::W.dir());
+            if boxes.contains(&next) {
+                box_can_and_will_move(walls, boxes, &next, step)
+            } else {
+                Some(Vec::new())
+            }
+        }
+        Dir4::S | Dir4::N => {
+            let second = next.add_unwrap(Dir4::W.dir());
+            if boxes.contains(&next) {
+                box_can_and_will_move(walls, boxes, &next, step)
+            } else if boxes.contains(&second) {
+                box_can_and_will_move(walls, boxes, &second, step)
+            } else {
+                Some(Vec::new())
+            }
+        }
+    }
+}
+
+fn box_can_and_will_move(
+    walls: &HashSet<Pos2U>,
+    boxes: &mut HashSet<Pos2U>,
+    bx: &Pos2U,
+    step: &Dir4,
+) -> Option<Vec<Pos2U>> {
+    let next = bx.add_unwrap(step.dir());
+    match step {
+        Dir4::E => {
+            let next = next.add_unwrap(step.dir());
+            if walls.contains(&next) {
+                return None;
+            }
+            if boxes.contains(&next) {
+                return box_can_and_will_move(walls, boxes, &next, step);
+            }
+            Some(Vec::new())
+        }
+        Dir4::W => {
+            if walls.contains(&next) {
+                return None;
+            }
+            let next = next.add_unwrap(step.dir());
+            if boxes.contains(&next) {
+                return box_can_and_will_move(walls, boxes, &next, step);
+            }
+            Some(Vec::new())
+        }
+        Dir4::S | Dir4::N => {
+            None
+            // let second = next.add_unwrap(Dir4::W.dir());
+            // (!boxes.contains(&next)
+            //     || (boxes.contains(&next) && box_can_and_will_move(walls, boxes, &next, step)))
+            //     && (!boxes.contains(&second)
+            //         || (boxes.contains(&second)
+            //             && box_can_and_will_move(walls, boxes, &second, step)))
+        }
+    }
+}
