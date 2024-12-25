@@ -1,13 +1,49 @@
+use itertools::Itertools;
+
+use crate::libs::Grid2;
+
 use super::day_trait::Day;
 
 #[derive(Debug)]
 pub struct Input {
-    lines: Vec<String>,
+    keys: Vec<u32>,
+    locks: Vec<u32>,
 }
 
 fn parse_input(raw: &str) -> Input {
-    let lines: Vec<String> = raw.split("\n").map(|s| s.to_owned()).collect();
-    Input { lines }
+    let mut keys = Vec::new();
+    let mut locks = Vec::new();
+
+    for block in raw.split("\n\n") {
+        let mut encoded = 0;
+        let lines = block
+            .split("\n")
+            .map(|s| s.chars().collect_vec())
+            .skip(1)
+            .take(5)
+            .collect_vec();
+
+        for x in 0..5 {
+            for y in 0..5 {
+                if lines[y][x] == '#' {
+                    encoded |= 1;
+                }
+                encoded <<= 1;
+            }
+        }
+
+        match block.chars().nth(0) {
+            Some('#') => {
+                keys.push(encoded);
+            }
+            Some('.') => {
+                locks.push(encoded);
+            }
+            _ => panic!("invalid input"),
+        }
+    }
+
+    Input { keys, locks }
 }
 
 pub struct Day25;
@@ -18,9 +54,18 @@ impl Day for Day25 {
 
     fn part_1(&self, raw: &str) {
         println!("Day {} part 1", self.day());
-        let _input: Input = parse_input(raw);
+        let Input {keys, locks} = parse_input(raw);
 
-        println!("Answer is {}", 0);
+        let mut count = 0;
+        for lock in locks.iter() {
+            for key in keys.iter() {
+                if lock & key == 0 {
+                    count += 1;
+                }
+            }
+        }
+
+        println!("Answer is {}", count);
     }
 
     fn part_2(&self, raw: &str) {
