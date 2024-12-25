@@ -4,8 +4,6 @@ use std::{
     usize,
 };
 
-use itertools::Itertools;
-
 use crate::libs::{dir_2d::Dir4, Pos2U};
 
 use super::day_trait::Day;
@@ -45,6 +43,39 @@ fn parse_input(raw: &str) -> Input {
     }
 }
 
+pub struct Day16;
+impl Day for Day16 {
+    fn day(&self) -> u8 {
+        16
+    }
+
+    fn part_1(&self, raw: &str) {
+        println!("Day {} part 1", self.day());
+        let input: Input = parse_input(raw);
+
+        let score = shortest_path(&input.obstacles, &input.start, &Dir4::E, &input.end).unwrap();
+
+        println!("Answer is {}", score);
+    }
+
+    fn part_2(&self, raw: &str) {
+        println!("Day {} part 2", self.day());
+        let input: Input = parse_input(raw);
+
+        let best_score =
+            shortest_path(&input.obstacles, &input.start, &Dir4::E, &input.end).unwrap();
+        let routes = all_routes(&input.obstacles, &input.start, &input.end, &best_score);
+
+        let seats: HashSet<Pos2U> = routes
+            .iter()
+            .flat_map(|route| route)
+            .map(|pos| pos.pos.to_owned())
+            .collect();
+
+        println!("Answer is {}", seats.len());
+    }
+}
+
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 struct State {
     pos: Pos2U,
@@ -64,37 +95,17 @@ impl PartialOrd for State {
     }
 }
 
-pub struct Day16;
-impl Day for Day16 {
-    fn day(&self) -> u8 {
-        16
-    }
-
-    fn part_1(&self, raw: &str) {
-        println!("Day {} part 1", self.day());
-        let input: Input = parse_input(raw);
-
-        let score = shortest_path(&input.obstacles, &input.start, &input.end).unwrap();
-
-        println!("Answer is {}", score);
-    }
-
-    fn part_2(&self, raw: &str) {
-        println!("Day {} part 2", self.day());
-        let input: Input = parse_input(raw);
-
-        let count = shortest_path_2(&input.obstacles, &input.start, &input.end);
-
-        println!("Answer is {}", count);
-    }
-}
-
-fn shortest_path(obstacles: &HashSet<Pos2U>, start: &Pos2U, end: &Pos2U) -> Option<usize> {
+fn shortest_path(
+    obstacles: &HashSet<Pos2U>,
+    start: &Pos2U,
+    dir: &Dir4,
+    end: &Pos2U,
+) -> Option<usize> {
     let mut visited: HashSet<(Pos2U, Dir4)> = HashSet::new();
     let mut queue: BinaryHeap<State> = BinaryHeap::new();
     queue.push(State {
-        pos: start.clone(),
-        dir: Dir4::E,
+        pos: start.to_owned(),
+        dir: dir.to_owned(),
         score: 0,
     });
     while let Some(State { pos, dir, score }) = queue.pop() {
@@ -131,92 +142,79 @@ fn shortest_path(obstacles: &HashSet<Pos2U>, start: &Pos2U, end: &Pos2U) -> Opti
     None
 }
 
-fn shortest_path_2(obstacles: &HashSet<Pos2U>, start: &Pos2U, end: &Pos2U) -> usize {
-    let mut visited: HashSet<(Pos2U, Dir4)> = HashSet::new();
-    let mut queue: BinaryHeap<State> = BinaryHeap::new();
-    let mut best_previous: HashMap<(Pos2U, Dir4), Vec<(Pos2U, Dir4)>> = HashMap::new();
-    let mut best_score: HashMap<(Pos2U, Dir4), usize> = HashMap::new();
-    queue.push(State {
+fn all_routes(
+    obstacles: &HashSet<Pos2U>,
+    start: &Pos2U,
+    end: &Pos2U,
+    max_cost: &usize,
+) -> Vec<Vec<State>> {
+    let mut routes: Vec<Vec<State>> = Vec::new();
+    let mut queue: Vec<Vec<State>> = Vec::new();
+
+    // meh, calculating this for every pos is inefficient, we could do dijkstra once (but I am lazy)
+    let mut shortest_from: HashMap<(Pos2U, Dir4), usize> = HashMap::new();
+
+    queue.push(vec![State {
         pos: start.clone(),
         dir: Dir4::E,
         score: 0,
-    });
-    let mut winner_score = usize::MAX;
-    while let Some(State { pos, dir, score }) = queue.pop() {
-        if pos == *end {
-            winner_score = score;
-        }
+    }]);
 
-        if visited.contains(&(pos, dir)) || score > winner_score {
+    while let Some(route) = queue.pop() {
+        // println!("queue: {}, routes: {}, shortest: {}", queue.len(), routes.len(), shortest_from.len());
+
+        let last = route.last().unwrap();
+
+        if obstacles.contains(&last.pos) {
             continue;
         }
-        visited.insert((pos, dir));
 
-        let next = pos.add(dir.dir()).try_into().unwrap();
-        if !obstacles.contains(&next) {
-            let key = (next, dir);
-            if !best_score.contains_key(&key) || score + 1 < *best_score.get(&key).unwrap() {
-                best_score.insert(key, score + 1);
-                best_previous.insert(key, vec![(pos, dir)]);
-            } else if score + 1 == *best_score.get(&key).unwrap() {
-                best_previous.get_mut(&key).unwrap().push((pos, dir));
-            }
-            queue.push(State {
-                pos: next,
-                dir,
-                score: score + 1,
-            });
+        if last.pos == *end {
+            routes.push(route.to_owned());
         }
 
-        let key = (pos, dir.rotate(90));
-        if !best_score.contains_key(&key) || score + 1000 < *best_score.get(&key).unwrap() {
-            best_score.insert(key, score + 1000);
-            best_previous.insert(key, vec![(pos, dir)]);
-        } else if score + 1000 == *best_score.get(&key).unwrap() {
-            best_previous.get_mut(&key).unwrap().push((pos, dir));
-        }
-        queue.push(State {
-            pos,
-            dir: dir.rotate(90),
-            score: score + 1000,
-        });
-
-        let key = (pos, dir.rotate(-90));
-        if !best_score.contains_key(&key) || score + 1000 < *best_score.get(&key).unwrap() {
-            best_score.insert(key, score + 1000);
-            best_previous.insert(key, vec![(pos, dir)]);
-        } else if score + 1000 == *best_score.get(&key).unwrap() {
-            best_previous.get_mut(&key).unwrap().push((pos, dir));
-        }
-        queue.push(State {
-            pos,
-            dir: dir.rotate(-90),
-            score: score + 1000,
-        });
-    }
-
-    Dir4::all()
-        .iter()
-        .flat_map(|d| get_all_routes(&(end.to_owned(), d.to_owned()), &best_previous))
-        .flat_map(|route| route.iter().map(|(pos, _)| pos.clone()).collect_vec())
-        .unique()
-        .count()
-}
-
-fn get_all_routes(
-    to: &(Pos2U, Dir4),
-    best_previous: &HashMap<(Pos2U, Dir4), Vec<(Pos2U, Dir4)>>,
-) -> Vec<Vec<(Pos2U, Dir4)>> {
-    if let Some(prev) = best_previous.get(to) {
-        return prev
+        if route
             .iter()
-            .flat_map(|prev| {
-                get_all_routes(prev, best_previous)
-                    .iter()
-                    .map(|route| vec![route.clone(), vec![to.clone()]].concat())
-                    .collect_vec()
-            })
-            .collect_vec();
+            .find(|pos| pos.pos == last.pos && pos.dir == last.dir && pos.score != last.score)
+            .is_some()
+        {
+            continue;
+        }
+
+        let shortest = shortest_from
+            .entry((last.pos, last.dir))
+            .or_insert_with(|| shortest_path(obstacles, &last.pos, &last.dir, end).unwrap());
+        if *max_cost < last.score + *shortest {
+            continue;
+        }
+
+        // forward
+        let mut next = route.clone();
+        next.push(State {
+            pos: last.pos.add_unwrap(last.dir.dir()),
+            dir: last.dir,
+            score: last.score + 1,
+        });
+        queue.push(next);
+
+        // turn right
+        let mut next = route.clone();
+        next.push(State {
+            pos: last.pos.add_unwrap(last.dir.rotate(90).dir()),
+            dir: last.dir.rotate(90),
+            score: last.score + 1001,
+        });
+        queue.push(next);
+
+        // turn left
+        let mut next = route.clone();
+        next.push(State {
+            pos: last.pos.add_unwrap(last.dir.rotate(-90).dir()),
+            dir: last.dir.rotate(-90),
+            score: last.score + 1001,
+        });
+        queue.push(next);
     }
-    vec![vec![to.clone()]]
+
+    routes
 }
