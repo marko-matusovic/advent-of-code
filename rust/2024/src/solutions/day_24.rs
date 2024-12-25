@@ -90,8 +90,8 @@ impl Day for Day24 {
 
     fn part_2(&self, raw: &str) {
         println!("Day {} part 2", self.day());
-        let Input { mut states, gates } = parse_input(raw);
-        
+        let _input = parse_input(raw);
+
         println!("Answer is {}", 0);
     }
 }

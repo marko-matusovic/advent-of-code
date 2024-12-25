@@ -1,7 +1,5 @@
 use itertools::Itertools;
 
-use crate::libs::Grid2;
-
 use super::day_trait::Day;
 
 #[derive(Debug)]
@@ -54,7 +52,7 @@ impl Day for Day25 {
 
     fn part_1(&self, raw: &str) {
         println!("Day {} part 1", self.day());
-        let Input {keys, locks} = parse_input(raw);
+        let Input { keys, locks } = parse_input(raw);
 
         let mut count = 0;
         for lock in locks.iter() {
@@ -68,10 +66,8 @@ impl Day for Day25 {
         println!("Answer is {}", count);
     }
 
-    fn part_2(&self, raw: &str) {
+    fn part_2(&self, _raw: &str) {
         println!("Day {} part 2", self.day());
-        let _input: Input = parse_input(raw);
-
-        println!("Answer is {}", 0);
+        println!("Answer is FREE");
     }
 }
