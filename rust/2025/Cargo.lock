@@ -10,6 +10,7 @@ dependencies = [
  "dotenv",
  "futures",
  "itertools",
+ "log",
  "pathfinding",
  "rand",
  "regex",

@@ -4,3 +4,6 @@
 #Except the directory and the launch file
 !.vscode
 !.vscode/launch.json
+
+# No cheating!
+/src/solutions/day_99.rs
