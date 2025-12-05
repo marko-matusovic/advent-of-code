@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use super::Pos2U;
+use super::{Pos2I, Pos2U};
 
 #[derive(Debug)]
 pub struct Grid2<I>(pub Vec<Vec<I>>);
@@ -18,8 +18,15 @@ impl From<&Vec<String>> for Grid2<char> {
 }
 
 impl<I> Grid2<I> {
-    pub fn get_at(&self, at: &Pos2U) -> Option<&I> {
+    pub fn get_at_posu(&self, at: &Pos2U) -> Option<&I> {
         self.get(at.0, at.1)
+    }
+
+    pub fn get_at_posi(&self, at: &Pos2I) -> Option<&I> {
+        if at.0 < 0 || at.1 < 0 {
+            return None;
+        }
+        self.get(at.0 as usize, at.1 as usize)
     }
 
     pub fn get(&self, x: usize, y: usize) -> Option<&I> {
@@ -37,6 +44,10 @@ impl<I: Clone> Clone for Grid2<I> {
 }
 
 impl<I: Clone> Grid2<I> {
+    pub fn fill(element: &I, x: usize, y: usize) -> Grid2<I> {
+        Grid2(vec![vec![element.clone(); x]; y])
+    }
+
     pub fn x(&self) -> usize {
         self.0[0].len()
     }
