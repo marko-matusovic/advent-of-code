@@ -85,10 +85,10 @@ impl<I: Clone> Grid2<I> {
     pub fn transpose(&self) -> Grid2<I> {
         let mut new_grid: Vec<Vec<I>> = Vec::new();
 
-        for y in 0..self.0.len() {
+        for x in 0..self.0[0].len() {
             new_grid.push(Vec::new());
-            for x in 0..self.0[y].len() {
-                new_grid[y].push(self.0[x][y].clone());
+            for y in 0..self.0.len() {
+                new_grid[x].push(self.0[y][x].clone());
             }
         }
 
