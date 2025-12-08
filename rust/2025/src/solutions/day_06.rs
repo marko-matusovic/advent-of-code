@@ -1,7 +1,6 @@
 use std::iter::zip;
 
-use itertools::{concat, Itertools};
-use pathfinding::num_traits::pow;
+use itertools::Itertools;
 
 use crate::libs::Grid2;
 

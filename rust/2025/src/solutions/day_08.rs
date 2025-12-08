@@ -37,7 +37,7 @@ impl Day for Day08 {
 
         let mut circuits = UnionFind::from(boxes.clone());
         for _ in 0..1000 {
-            let (Reverse(d), a, b) = heap.pop().unwrap();
+            let (_, a, b) = heap.pop().unwrap();
             circuits.union(&a, &b);
         }
 
@@ -68,7 +68,7 @@ impl Day for Day08 {
         let mut n_circuits = boxes.len();
 
         loop {
-            let (Reverse(d), a, b) = heap.pop().unwrap();
+            let (_, a, b) = heap.pop().unwrap();
             if let Some(_) = circuits.union(&a, &b) {
                 n_circuits -= 1;
                 if n_circuits == 1 {
