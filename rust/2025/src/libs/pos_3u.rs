@@ -7,7 +7,7 @@ use itertools::Itertools;
 
 use super::pos_3i::Pos3I;
 
-#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Ord, PartialOrd)]
 pub struct Pos3U(pub usize, pub usize, pub usize);
 
 impl ToString for Pos3U {
