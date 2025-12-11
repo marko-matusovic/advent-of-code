@@ -47,7 +47,7 @@ pub fn solve_linear_system(a: &[[f64; 2]; 2], y: &[f64; 2]) -> Option<[f64; 2]> 
 
     // eliminate x[1] from top row
     y[0] -= y[1] * a[0][1];
-    a[0][1] = 0.;
+    // a[0][1] = 0.;
 
     let round_y0: f64 = (y[0] * 1000.).round() / 1000.;
     let round_y1: f64 = (y[1] * 1000.).round() / 1000.;
