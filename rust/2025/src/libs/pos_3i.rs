@@ -59,19 +59,28 @@ impl Pos3I {
     pub fn scale(self, sc: isize) -> Self {
         Pos3I(self.0 * sc, self.1 * sc, self.2 * sc)
     }
-    pub fn dominates(&self, other: Self) -> bool {
-        return other.0 <= self.0 && other.1 <= self.1 && other.2 <= self.2;
+    pub fn dominates(&self, other: &Self) -> bool {
+        other.0 <= self.0 && other.1 <= self.1 && other.2 <= self.2
     }
-    pub fn dist_n1(&self, other: Self) -> isize {
+    pub fn dist_x(&self, other: &Self) -> isize {
+        (self.0 - other.0).abs()
+    }
+    pub fn dist_y(&self, other: &Self) -> isize {
+        (self.1 - other.1).abs()
+    }
+    pub fn dist_z(&self, other: &Self) -> isize {
+        (self.2 - other.2).abs()
+    }
+    pub fn dist_n1(&self, other: &Self) -> isize {
         (self.0 - other.0).abs() + (self.1 - other.1).abs() + (self.2 - other.2).abs()
     }
-    pub fn dist_n2_sq(&self, other: Self) -> isize {
+    pub fn dist_n2_sq(&self, other: &Self) -> isize {
         let a = self.0 - other.0;
         let b = self.1 - other.1;
         let c = self.2 - other.2;
         a * a + b * b + c * c
     }
-    pub fn dist_n2(&self, other: Self) -> f64 {
+    pub fn dist_n2(&self, other: &Self) -> f64 {
         (self.dist_n2_sq(other) as f64).sqrt()
     }
 }

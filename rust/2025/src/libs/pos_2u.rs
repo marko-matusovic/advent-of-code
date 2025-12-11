@@ -59,25 +59,34 @@ impl Sub for Pos2U {
     }
 }
 impl Pos2U {
-    pub fn add_unwrap(self, other: Pos2I) -> Pos2U {
+    pub fn add_unwrap(self, other: Pos2I) -> Self {
         self.add(other).try_into().unwrap()
     }
+    pub fn t(&self) -> Self {
+        Self(self.1, self.0)
+    }
     pub fn scale(self, sc: usize) -> Self {
-        Pos2U(self.0 * sc, self.1 * sc)
+        Self(self.0 * sc, self.1 * sc)
     }
-    pub fn dominates(&self, other: Self) -> bool {
-        return other.0 <= self.0 && other.1 <= self.1;
+    pub fn dominates(&self, other: &Self) -> bool {
+        other.0 <= self.0 && other.1 <= self.1
     }
-    pub fn dist_n1(&self, other: Self) -> usize {
+    pub fn dist_x(&self, other: &Self) -> usize {
+        (self.0 as isize - other.0 as isize).abs() as usize
+    }
+    pub fn dist_y(&self, other: &Self) -> usize {
+        (self.1 as isize - other.1 as isize).abs() as usize
+    }
+    pub fn dist_n1(&self, other: &Self) -> usize {
         ((self.0 as isize - other.0 as isize).abs() + (self.1 as isize - other.1 as isize).abs())
             as usize
     }
-    pub fn dist_n2_sq(&self, other: Self) -> usize {
+    pub fn dist_n2_sq(&self, other: &Self) -> usize {
         let a = self.0 as isize - other.0 as isize;
         let b = self.1 as isize - other.1 as isize;
         (a * a + b * b) as usize
     }
-    pub fn dist_n2(&self, other: Self) -> f64 {
+    pub fn dist_n2(&self, other: &Self) -> f64 {
         (self.dist_n2_sq(other) as f64).sqrt()
     }
 }

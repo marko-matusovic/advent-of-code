@@ -31,7 +31,7 @@ impl Day for Day08 {
         let mut heap = BinaryHeap::new();
         for (i, a) in boxes.iter().enumerate() {
             for b in boxes.iter().skip(i + 1) {
-                heap.push((Reverse(a.dist_n2_sq(*b)), a.clone(), b.clone()));
+                heap.push((Reverse(a.dist_n2_sq(b)), a.clone(), b.clone()));
             }
         }
 
@@ -60,7 +60,7 @@ impl Day for Day08 {
         let mut heap = BinaryHeap::new();
         for (i, a) in boxes.iter().enumerate() {
             for b in boxes.iter().skip(i + 1) {
-                heap.push((Reverse(a.dist_n2_sq(*b)), a.clone(), b.clone()));
+                heap.push((Reverse(a.dist_n2_sq(b)), a.clone(), b.clone()));
             }
         }
 

@@ -57,23 +57,32 @@ impl Sub for Pos2I {
 }
 impl Pos2I {
     pub fn scale(self, sc: isize) -> Self {
-        Pos2I(self.0 * sc, self.1 * sc)
+        Self(self.0 * sc, self.1 * sc)
     }
-    pub fn dominates(&self, other: Self) -> bool {
+    pub fn t(&self) -> Self {
+        Self(self.1, self.0)
+    }
+    pub fn dominates(&self, other: &Self) -> bool {
         return other.0 <= self.0 && other.1 <= self.1;
     }
-    pub fn dist_n1(&self, other: Self) -> isize {
+    pub fn dist_x(&self, other: &Self) -> isize {
+        (self.0 - other.0).abs()
+    }
+    pub fn dist_y(&self, other: &Self) -> isize {
+        (self.1 - other.1).abs()
+    }
+    pub fn dist_n1(&self, other: &Self) -> isize {
         (self.0 - other.0).abs() + (self.1 - other.1).abs()
     }
-    pub fn dist_n2_sq(&self, other: Self) -> isize {
+    pub fn dist_n2_sq(&self, other: &Self) -> isize {
         let a = self.0 - other.0;
         let b = self.1 - other.1;
         a * a + b * b
     }
-    pub fn dist_n2(&self, other: Self) -> f64 {
+    pub fn dist_n2(&self, other: &Self) -> f64 {
         (self.dist_n2_sq(other) as f64).sqrt()
     }
-    pub fn wrap(&self, other: Self) -> Self {
+    pub fn wrap(&self, other: &Self) -> Self {
         Pos2I(
             ((self.0 % other.0) + other.0) % other.0,
             ((self.1 % other.1) + other.1) % other.1,
