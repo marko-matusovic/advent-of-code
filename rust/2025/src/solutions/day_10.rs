@@ -1,6 +1,11 @@
 use super::day_trait::Day;
 use cached::proc_macro::cached;
+use good_lp::constraint::eq;
+use good_lp::{
+    variable, Constraint, Expression, ProblemVariables, Solution, SolverModel, Variable,
+};
 use itertools::Itertools;
+use pathfinding::num_traits::ToPrimitive;
 
 #[derive(Debug, Clone, Ord, PartialOrd, Eq, PartialEq)]
 pub struct Input {
@@ -120,33 +125,43 @@ fn least_clicks_lights(lights: u16, buttons: Vec<u16>) -> usize {
         .unwrap_or(999_999_999)
 }
 
-#[cached]
 fn least_clicks_joltage(joltage: Vec<u16>, buttons: Vec<Vec<u16>>) -> usize {
-    println!("{:?}", joltage);
-    if joltage.iter().all(|&num| num == 0) {
-        return 0;
-    }
-    buttons
+    let mut problem_vars = ProblemVariables::new();
+    let vars: Vec<Variable> = buttons
         .iter()
-        .filter_map(|button| {
-            let mut new_joltage = joltage.clone();
-            let min_num = button
+        .map(|button| {
+            let max_count = button
                 .iter()
-                .map(|pos| joltage[*pos as usize])
+                .map(|&pos| joltage[pos as usize])
                 .min()
                 .unwrap();
-            if min_num == 0 {
-                return None;
-            }
-            for &pos in button {
-                new_joltage[pos as usize] -= min_num;
-            }
-            println!(
-                "{:?} - {} * {:?} = {:?}",
-                joltage, min_num, button, new_joltage
-            );
-            return Some(min_num as usize + least_clicks_joltage(new_joltage, buttons.clone()));
+            problem_vars.add(variable().integer().min(0).max(max_count))
         })
-        .min()
-        .unwrap_or(999_999_999)
+        .collect();
+
+    let constraints: Vec<Constraint> = joltage
+        .iter()
+        .enumerate()
+        .map(|(ji, &jolt)| {
+            eq(
+                buttons
+                    .iter()
+                    .enumerate()
+                    .filter(|(_, button)| button.contains(&(ji as u16)))
+                    .fold(Expression::from(0), |acc, (bi, _)| acc + vars[bi]),
+                jolt as i32,
+            )
+        })
+        .collect();
+
+    let objective = vars.iter().fold(Expression::from(0), |acc, var| acc + var);
+    problem_vars
+        .minimise(objective.clone())
+        .using(good_lp::default_solver)
+        .with_all(constraints)
+        .solve()
+        .unwrap()
+        .eval(objective.clone())
+        .to_usize()
+        .unwrap()
 }
